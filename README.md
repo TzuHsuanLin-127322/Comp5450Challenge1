@@ -1,8 +1,8 @@
-# challenge_1_mobile_store_maker
+# Challenge_1_mobile_store_maker
 
 ## Group Members
 
-| Name                 | Responsibility             |
+| Name                 | Responsibility              |
 |----------------------|-----------------------------|
 | Tianhua Lian         | Main Page                   |
 | Tzu-Hsuan Lin        | Order Page                  |
