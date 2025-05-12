@@ -11,6 +11,4 @@ class Product {
     required this.comparePrice,
     required this.images,
   });
-
-// You can also add methods for serialization and deserialization if needed
 }
