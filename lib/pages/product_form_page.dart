@@ -26,6 +26,7 @@ class ProductFormPage extends StatelessWidget {
         }
 
         return Scaffold(
+          backgroundColor: Colors.white, // Changed background color to white
           appBar: AppBar(
             title: Text(isEditMode ? 'Edit Product' : 'Add Product'),
             actions: [
@@ -112,6 +113,27 @@ class ProductFormPage extends StatelessWidget {
                     );
                   },
                 ),
+                // === DELETE BUTTON ADDED HERE ===
+                if (isEditMode)
+                  ...[ // Use '...' to add the widget conditionally
+                    SizedBox(height: 24),
+                    Align(
+                      alignment: Alignment.bottomCenter, // Align button at the bottom
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0), // Padding to keep distance from the bottom
+                        child: TextButton(
+                          onPressed: () {
+                            viewModel.deleteProduct();
+                            Navigator.pop(context, {'delete': true}); // Returning 'delete' flag
+                          },
+                          child: Text(
+                            'Delete Product',
+                            style: TextStyle(color: Colors.blue), // Blue colored text
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]
               ],
             ),
           ),
