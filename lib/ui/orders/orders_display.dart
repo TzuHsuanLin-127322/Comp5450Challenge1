@@ -1,7 +1,7 @@
 import 'package:challenge_1_mobile_store_maker/model/cart_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/cart_product_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
-import 'package:challenge_1_mobile_store_maker/ui/order/order_view_model.dart';
+import 'package:challenge_1_mobile_store_maker/ui/orders/orders_view_model.dart';
 import 'package:challenge_1_mobile_store_maker/utils/api_status.dart';
 import 'package:challenge_1_mobile_store_maker/utils/string_formatter.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 
 // TODO: COMPLETE Order Display
 
-class OrderDisplay extends StatelessWidget {
-  const OrderDisplay({super.key});
+class OrdersPage extends StatelessWidget {
+  const OrdersPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class OrderDisplay extends StatelessWidget {
      *  - Edit Order
      * - FAB: Add order button -> Navigate to add order when pressed
      */
-    final OrderViewModel viewModel = context.watch();
+    final OrdersViewModel viewModel = context.watch();
     return (Scaffold(
       appBar: _makeAppBar(context, viewModel),
       body: _makeContentWidget(context, viewModel),
@@ -35,12 +35,12 @@ class OrderDisplay extends StatelessWidget {
 
   PreferredSizeWidget _makeAppBar(
     BuildContext context,
-    OrderViewModel viewModel,
+    OrdersViewModel viewModel,
   ) {
     return AppBar(title: Text("Order List"));
   }
 
-  Widget _makeContentWidget(BuildContext context, OrderViewModel viewModel) {
+  Widget _makeContentWidget(BuildContext context, OrdersViewModel viewModel) {
     if (viewModel.fetchOrderListStatus == ApiStatus.loading) {
       return Center(child: CircularProgressIndicator());
     }
@@ -119,7 +119,7 @@ class OrderDisplay extends StatelessWidget {
 
   Widget _makeFloatingActionButton(
     BuildContext context,
-    OrderViewModel viewModel,
+    OrdersViewModel viewModel,
   ) {
     return FloatingActionButton(
       onPressed: () {
@@ -132,7 +132,7 @@ class OrderDisplay extends StatelessWidget {
   Future<void> _buildRemoveOrderModal(
     BuildContext context,
     int index,
-    OrderViewModel viewModel,
+    OrdersViewModel viewModel,
   ) {
     final order = viewModel.orderList[index];
     // TODO: CREATE THE MODAL
@@ -173,7 +173,7 @@ class OrderDisplay extends StatelessWidget {
   Future<void> _buildChangeOrderStatusModal(
     BuildContext context,
     int index,
-    OrderViewModel viewModel,
+    OrdersViewModel viewModel,
   ) {
     OrderModel order = viewModel.orderList[index];
     OrderStatus selectedStatus = viewModel.orderList[index].orderStatus;

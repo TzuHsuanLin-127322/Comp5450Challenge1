@@ -4,7 +4,7 @@ import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
 import 'package:challenge_1_mobile_store_maker/utils/api_status.dart';
 import 'package:flutter/material.dart';
 
-class OrderViewModel extends ChangeNotifier{
+class OrdersViewModel extends ChangeNotifier{
   final OrderRepository _orderRepository;
   ApiStatus _fetchOrderListStatus = ApiStatus.initial;
   ApiStatus _deleteOrderStatus = ApiStatus.initial;
@@ -12,7 +12,7 @@ class OrderViewModel extends ChangeNotifier{
   
   List<OrderModel> _orderList = List.empty();
 
-  OrderViewModel({
+  OrdersViewModel({
     required OrderRepository orderRepository,
   }): _orderRepository = orderRepository{
     fetchOrderList();
