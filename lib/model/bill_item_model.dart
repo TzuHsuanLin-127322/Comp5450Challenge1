@@ -4,5 +4,5 @@ class BillItemModel {
   final String itemDescription;
   final CurrencyModel price;
 
-  BillItemModel(this.itemDescription, this.price);
+  BillItemModel({required this.itemDescription, required this.price});
 }

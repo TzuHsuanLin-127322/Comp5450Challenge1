@@ -7,5 +7,5 @@ class CartProductModel {
   final int qty;
   final CurrencyModel price;
 
-  CartProductModel(this.product, this.qty, this.price);
+  CartProductModel({required this.product, required this.qty, required this.price});
 }

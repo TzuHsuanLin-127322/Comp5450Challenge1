@@ -4,5 +4,5 @@ class CurrencyModel {
   final int minor;
   final String decimalSymbol;
 
-  CurrencyModel(this.symbol, this.major, this.decimalSymbol, this.minor);
+  CurrencyModel({required this.symbol, required this.major, required this.decimalSymbol, required this.minor});
 }

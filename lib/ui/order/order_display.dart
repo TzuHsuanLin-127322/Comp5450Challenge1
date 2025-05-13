@@ -1,2 +1,230 @@
+import 'package:challenge_1_mobile_store_maker/model/cart_model.dart';
+import 'package:challenge_1_mobile_store_maker/model/cart_product_model.dart';
+import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
+import 'package:challenge_1_mobile_store_maker/ui/order/order_view_model.dart';
+import 'package:challenge_1_mobile_store_maker/utils/api_status.dart';
+import 'package:challenge_1_mobile_store_maker/utils/string_formatter.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 // TODO: COMPLETE Order Display
-// Inject Order View Model
+
+class OrderDisplay extends StatelessWidget {
+  const OrderDisplay({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Inject Order View Model
+
+    /**
+     * Displays
+     * - Ordel list has order ? List of Orders : Display Empty
+     * - Order items views:
+     *  - Delete Order
+     *  - Change order status
+     *  - Edit Order
+     * - FAB: Add order button -> Navigate to add order when pressed
+     */
+    final OrderViewModel viewModel = context.watch();
+    return (Scaffold(
+      appBar: _makeAppBar(context, viewModel),
+      body: _makeContentWidget(context, viewModel),
+      floatingActionButton: _makeFloatingActionButton(context, viewModel),
+    ));
+  }
+
+  PreferredSizeWidget _makeAppBar(
+    BuildContext context,
+    OrderViewModel viewModel,
+  ) {
+    return AppBar(title: Text("Order List"));
+  }
+
+  Widget _makeContentWidget(BuildContext context, OrderViewModel viewModel) {
+    if (viewModel.fetchOrderListStatus == ApiStatus.loading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    if (viewModel.orderList.isEmpty) {
+      return Center(child: Text("Order List empty"));
+    }
+
+    return RefreshIndicator(
+      onRefresh: () async {
+        viewModel.fetchOrderList();
+      },
+
+      child: Expanded(
+        child: ListView.builder(
+          padding: EdgeInsets.all(8),
+          itemCount: viewModel.orderList.length,
+          itemBuilder: (context, index) {
+            OrderModel order = viewModel.orderList[index];
+            List<CartProductModel> cartProducts = order.cart.productList;
+            return Card(
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Order ID: ${order.id}"),
+                          Text("Order For: ${order.customerInfo.name}"),
+                          Text("Total Price: ${formatMoney(order.finalPrice)}",),
+                          Text("Status: ${formatOrderStatus(order.orderStatus)}"),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children:
+                            cartProducts.map((product) {
+                              // TODO: Add product Photos
+                              return (Center());
+                            }).toList(),
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          MaterialButton(
+                            child: Text("Edit Order"),
+                            onPressed:
+                                () => {
+                                  // TODO: Push edit order page as bottom sheet
+                                },
+                          ),
+                          MaterialButton(
+                            child: Text("Change Order Status"),
+                            onPressed: () => _buildChangeOrderStatusModal(context, index, viewModel),
+                          ),
+                          MaterialButton(
+                            child: Text("Remove Order"),
+                            onPressed: () => _buildRemoveOrderModal(context, index, viewModel),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _makeFloatingActionButton(
+    BuildContext context,
+    OrderViewModel viewModel,
+  ) {
+    return FloatingActionButton(
+      onPressed: () {
+        // TODO: Push add to order page as bottom sheet
+      },
+      child: Icon(Icons.add),
+    );
+  }
+
+  Future<void> _buildRemoveOrderModal(
+    BuildContext context,
+    int index,
+    OrderViewModel viewModel,
+  ) {
+    final order = viewModel.orderList[index];
+    // TODO: CREATE THE MODAL
+    return showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            // TODO: Add the modal content, when click yes, remove the order
+            title: Text("Confirm Remove Order"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Are you sure you want to remove the following order?"),
+                Text("Order ID: ${order.id}"),
+                Text("Order For: ${order.customerInfo.name}"),
+                Text("Total Price: ${formatMoney(order.finalPrice)}"),
+              ],),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    // TODO: Remove the order
+                    viewModel.onOrderDeletePress(order.id);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Yes"),
+                ),  
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("No"),
+                ),
+              ],
+          ),
+    );
+  }
+
+  Future<void> _buildChangeOrderStatusModal(
+    BuildContext context,
+    int index,
+    OrderViewModel viewModel,
+  ) {
+    OrderModel order = viewModel.orderList[index];
+    OrderStatus selectedStatus = viewModel.orderList[index].orderStatus;
+    // TODO Create the modal
+    return showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(builder: (context, setState) {
+        return AlertDialog(
+          // TODO: Add the modal content, show radio chips, when click yes, change the order status
+          title: Text("Change Order Status"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Select the new status for the order"),
+              Wrap(
+                spacing: 8,
+                children: OrderStatus.values.map((status) {
+                  return ChoiceChip(
+                    label: Text(formatOrderStatus(status)),
+                    selected: selectedStatus == status,
+                    onSelected: (selected) {
+                      if (selected) {
+                        setState((){
+                          selectedStatus = status;
+                        });
+                      }
+                    },
+                  );
+                }).toList(),
+              )
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // TODO: Change order Status
+                viewModel.onOrderStatusChange(order.id, selectedStatus);
+                Navigator.of(context).pop();
+              },
+              child: Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Close without changing anything
+              },
+              child: Text('No'),
+            )
+          ]
+        );
+      })
+    );
+  }
+}
