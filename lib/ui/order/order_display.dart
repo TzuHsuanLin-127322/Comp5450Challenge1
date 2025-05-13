@@ -24,9 +24,22 @@ class OrderDisplay extends StatelessWidget {
     final OrderViewModel viewModel = context.watch();
     return (
       Scaffold(
-        body: Center(
-          child: Text("Order List Page "))
+        appBar: _makeAppBar(context, viewModel),
+        body: _makeContentWidget(context, viewModel),
+        floatingActionButton: _makeFloatingActionButton(context, viewModel),
       )
     );
+  }
+
+  PreferredSizeWidget _makeAppBar(BuildContext context, OrderViewModel viewModel) {
+    return AppBar();
+  }
+
+  Widget _makeContentWidget(BuildContext context, OrderViewModel viewModel) {
+    return Center(child: Text("Order List Page "));
+  }
+
+  Widget _makeFloatingActionButton(BuildContext context, OrderViewModel viewModel) {
+    return Center();
   }
 }
