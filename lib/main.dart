@@ -1,4 +1,6 @@
 import 'package:challenge_1_mobile_store_maker/data/repository/order_repository.dart';
+import 'package:challenge_1_mobile_store_maker/data/services/mock_order_service.dart';
+import 'package:challenge_1_mobile_store_maker/data/services/order_service.dart';
 import 'package:challenge_1_mobile_store_maker/ui/order/order_display.dart';
 import 'package:challenge_1_mobile_store_maker/ui/order/order_view_model.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +11,9 @@ void main() {
     MultiProvider(
       providers: [
         // Services
+        Provider(create: (context) => FakeOrderService() as OrderService),
         // Repositories
-        Provider(create: (context) => OrderRepository()),
+        Provider(create: (context) => OrderRepository(orderService: context.read())),
         // View Holders
         ChangeNotifierProvider(create: (context) => OrderViewModel(orderRepository: context.read()))
       ],

@@ -10,6 +10,7 @@ import 'package:challenge_1_mobile_store_maker/model/product_model.dart';
 final dummyOrderList = OrderListModel(
   orders: [
     OrderModel(
+      id: 1,
       customerInfo: CustomerInfoModel(
         name: "John Smith", 
         shippingAddress: "243 Some where, somewhere boulevard, 123 454 Ontario, Canada",
