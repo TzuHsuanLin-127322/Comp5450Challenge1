@@ -13,4 +13,4 @@ class OrderModel {
   OrderModel({this.id = -1, required this.customerInfo, required this.cart, required this.billItemList, required this.finalPrice, required this.orderStatus});
 }
 
-enum OrderStatus {draft, confirmed, paymentConfirmed, shipped, complete}
+enum OrderStatus {pending, confirmed, paymentConfirmed, shipped, complete}

@@ -32,26 +32,24 @@ class OrderViewModel extends ChangeNotifier{
   }
 
   // TODO: On ordelete pressed
-  void onOrderDeletePress(int index) {
+  void onOrderDeletePress(int orderId) {
     _deleteOrderStatus = ApiStatus.loading;
-    OrderModel model = _orderList[index];
-    _orderRepository.deleteOrder(model.id).then((result) {
-      if (result.statusCode == 200) { 
-        _orderList.removeAt(index);
+    _orderRepository.deleteOrder(orderId).then((result) {
+      if (result.statusCode == 200) {
         _deleteOrderStatus = ApiStatus.success;
-        notifyListeners();
       } else {
         _deleteOrderStatus = ApiStatus.error;
-        notifyListeners();
       }
+      fetchOrderList();
+      notifyListeners();
     });
   }
 
 
   // TODO: on order status changed
-  void onOrderStatusChange(int index, OrderStatus newStatus) {
+  void onOrderStatusChange(int orderId, OrderStatus newStatus) {
     _updateOrderStatus = ApiStatus.loading;
-    OrderModel model = _orderList[index];
+    OrderModel model = _orderList.firstWhere((element) => element.id == orderId);
     OrderModel newModel = OrderModel(
       id: model.id,
       customerInfo: model.customerInfo,
@@ -62,13 +60,12 @@ class OrderViewModel extends ChangeNotifier{
     );
     _orderRepository.updateOrder(model.id, newModel).then((result) {
       if (result.statusCode == 200) {
-        _orderList[index] = newModel;  
         _updateOrderStatus = ApiStatus.success;
-        notifyListeners();
       } else {
         _updateOrderStatus = ApiStatus.error;
-        notifyListeners();
       }
+      fetchOrderList();
+      notifyListeners();
     });
   }
 

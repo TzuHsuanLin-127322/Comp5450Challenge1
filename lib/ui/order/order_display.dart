@@ -3,6 +3,7 @@ import 'package:challenge_1_mobile_store_maker/model/cart_product_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
 import 'package:challenge_1_mobile_store_maker/ui/order/order_view_model.dart';
 import 'package:challenge_1_mobile_store_maker/utils/api_status.dart';
+import 'package:challenge_1_mobile_store_maker/utils/string_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,8 +41,7 @@ class OrderDisplay extends StatelessWidget {
   }
 
   Widget _makeContentWidget(BuildContext context, OrderViewModel viewModel) {
-    if (viewModel.orderList.isEmpty &&
-        viewModel.fetchOrderListStatus == ApiStatus.loading) {
+    if (viewModel.fetchOrderListStatus == ApiStatus.loading) {
       return Center(child: CircularProgressIndicator());
     }
 
@@ -72,10 +72,8 @@ class OrderDisplay extends StatelessWidget {
                         children: [
                           Text("Order ID: ${order.id}"),
                           Text("Order For: ${order.customerInfo.name}"),
-                          Text(
-                            "Total Price: ${order.finalPrice.symbol}${order.finalPrice.major}${order.finalPrice.decimalSymbol}${order.finalPrice.minor}",
-                          ),
-                          Text("Status: ${order.orderStatus.name}"),
+                          Text("Total Price: ${formatMoney(order.finalPrice)}",),
+                          Text("Status: ${formatOrderStatus(order.orderStatus)}"),
                         ],
                       ),
                     ),
@@ -100,21 +98,11 @@ class OrderDisplay extends StatelessWidget {
                           ),
                           MaterialButton(
                             child: Text("Change Order Status"),
-                            onPressed:
-                                () => _buildChangeOrderStatusModal(
-                                  context,
-                                  index,
-                                  viewModel,
-                                ),
+                            onPressed: () => _buildChangeOrderStatusModal(context, index, viewModel),
                           ),
                           MaterialButton(
                             child: Text("Remove Order"),
-                            onPressed:
-                                () => _buildRemoveOrderModal(
-                                  context,
-                                  index,
-                                  viewModel,
-                                ),
+                            onPressed: () => _buildRemoveOrderModal(context, index, viewModel),
                           ),
                         ],
                       ),
@@ -146,12 +134,38 @@ class OrderDisplay extends StatelessWidget {
     int index,
     OrderViewModel viewModel,
   ) {
+    final order = viewModel.orderList[index];
     // TODO: CREATE THE MODAL
     return showDialog(
       context: context,
       builder:
           (context) => AlertDialog(
             // TODO: Add the modal content, when click yes, remove the order
+            title: Text("Confirm Remove Order"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Are you sure you want to remove the following order?"),
+                Text("Order ID: ${order.id}"),
+                Text("Order For: ${order.customerInfo.name}"),
+                Text("Total Price: ${formatMoney(order.finalPrice)}"),
+              ],),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    // TODO: Remove the order
+                    viewModel.onOrderDeletePress(order.id);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Yes"),
+                ),  
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("No"),
+                ),
+              ],
           ),
     );
   }
@@ -161,13 +175,56 @@ class OrderDisplay extends StatelessWidget {
     int index,
     OrderViewModel viewModel,
   ) {
+    OrderModel order = viewModel.orderList[index];
+    OrderStatus selectedStatus = viewModel.orderList[index].orderStatus;
     // TODO Create the modal
     return showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            // TODO: Add the modal content, show radio chips, when click yes, change the order status
+      builder: (context) => StatefulBuilder(builder: (context, setState) {
+        return AlertDialog(
+          // TODO: Add the modal content, show radio chips, when click yes, change the order status
+          title: Text("Change Order Status"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Select the new status for the order"),
+              Wrap(
+                spacing: 8,
+                children: OrderStatus.values.map((status) {
+                  return ChoiceChip(
+                    label: Text(formatOrderStatus(status)),
+                    selected: selectedStatus == status,
+                    onSelected: (selected) {
+                      if (selected) {
+                        setState((){
+                          selectedStatus = status;
+                        });
+                      }
+                    },
+                  );
+                }).toList(),
+              )
+            ],
           ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // TODO: Change order Status
+                viewModel.onOrderStatusChange(order.id, selectedStatus);
+                Navigator.of(context).pop();
+              },
+              child: Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Close without changing anything
+              },
+              child: Text('No'),
+            )
+          ]
+        );
+      })
     );
   }
 }
