@@ -4,6 +4,8 @@ import 'services/product_service.dart';
 import 'services/order_service.dart';
 import 'providers/cart_provider.dart';
 
+import 'ui/main_page.dart';
+
 void main() {
   runApp(
     MultiProvider(
@@ -24,8 +26,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(body: Center(child: Text('Hello World!'))),
+    return MaterialApp(
+      title: 'Mobile Store Maker',
+      initialRoute: '/',
+      routes: {
+        '/': (_) => MainPage(),
+        '/dashboard': (_) => DashboardPage(),
+        '/addStore': (_) => AddStorePage(),
+        '/orders': (_) => OrdersPage(),
+        '/products': (_) => ProductsPage(),
+      },
     );
   }
 }

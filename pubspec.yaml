@@ -7,6 +7,7 @@ environment:
   sdk: ^3.7.2
 
 dependencies:
+  fl_chart: ^1.0.0
   flutter:
     sdk: flutter
   http: ^1.4.0
