@@ -7,23 +7,52 @@ import 'package:challenge_1_mobile_store_maker/model/order_list_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/product_model.dart';
 
-final dummyOrderList = OrderListModel([
-  OrderModel(
-    CustomerInfoModel("John Smith", "243 Some where, somewhere boulevard, 123 454 Ontario, Canada", '+1-553-6334-4125'),
-    CartModel(
-      [
-        CartProductModel(
-          ProductModel(),
-          1,
-          CurrencyModel('\$',12,'.',10)
+final dummyOrderList = OrderListModel(
+  orders: [
+    OrderModel(
+      customerInfo: CustomerInfoModel(
+        name: "John Smith", 
+        shippingAddress: "243 Some where, somewhere boulevard, 123 454 Ontario, Canada",
+        phone: '+1-553-6334-4125'
+      ),
+      cart: CartModel(
+        productList: [
+          CartProductModel(
+            product: ProductModel(),
+            qty: 1,
+            price: CurrencyModel(
+              symbol: '\$',
+              major: 12,
+              decimalSymbol: '.',
+              minor: 10
+            )
+          )
+        ],
+        totalPrice: CurrencyModel(
+          symbol: '\$',
+          major: 12,
+          decimalSymbol: '.',
+          minor: 10
+        )
+      ),
+      billItemList: [
+        BillItemModel(
+          itemDescription: 'Processing Fee',
+          price: CurrencyModel(
+            symbol: '\$',
+            major: 1,
+            decimalSymbol: '.',
+            minor: 0
+          )
         )
       ],
-      CurrencyModel('\$',12,'.',10)
+      finalPrice: CurrencyModel(
+        symbol: '\$',
+        major: 13,
+        decimalSymbol: '.',
+        minor: 10
+      ),
+      orderStatus: OrderStatus.confirmed
     ),
-    [
-      BillItemModel('Processing Fee', CurrencyModel('\$', 1,'.', 0))
-    ],
-    CurrencyModel('\$', 13,'.', 10), 
-    OrderStatus.confirmed
-  ),
-]);
+  ]
+);

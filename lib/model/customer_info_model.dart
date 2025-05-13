@@ -3,5 +3,5 @@ class CustomerInfoModel {
   final String shippingAddress;
   final String phone;
 
-  CustomerInfoModel(this.name, this.shippingAddress, this.phone);
+  CustomerInfoModel({required this.name, required this.shippingAddress, required this.phone});
 }

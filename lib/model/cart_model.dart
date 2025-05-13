@@ -6,5 +6,5 @@ class CartModel {
   final List<CartProductModel> productList;
   final CurrencyModel totalPrice;
 
-  CartModel(this.productList, this.totalPrice);
+  CartModel({required this.productList, required this.totalPrice});
 }
