@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:challenge_1_mobile_store_maker/model/base/http_service_result.dart';
+import 'package:challenge_1_mobile_store_maker/model/fakeData/fake_order_list_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_list_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
 import 'package:collection/collection.dart';
@@ -10,7 +11,7 @@ class FakeOrderService implements OrderService {
 
   FakeOrderService({this.latency = const Duration(seconds: 2)});
 
-  final OrderListModel _orderList = OrderListModel(orders: []);
+  final OrderListModel _orderList = OrderListModel(orders: dummyOrderList.orders);
 
   @override
   Future<HttpServiceResult<OrderListModel>> fetchOrderList() async {
