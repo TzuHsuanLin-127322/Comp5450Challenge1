@@ -25,23 +25,23 @@ class OrderDisplay extends StatelessWidget {
      * - FAB: Add order button -> Navigate to add order when pressed
      */
     final OrderViewModel viewModel = context.watch();
-    return (
-      Scaffold(
-        appBar: _makeAppBar(context, viewModel),
-        body: _makeContentWidget(context, viewModel),
-        floatingActionButton: _makeFloatingActionButton(context, viewModel),
-      )
-    );
+    return (Scaffold(
+      appBar: _makeAppBar(context, viewModel),
+      body: _makeContentWidget(context, viewModel),
+      floatingActionButton: _makeFloatingActionButton(context, viewModel),
+    ));
   }
 
-  PreferredSizeWidget _makeAppBar(BuildContext context, OrderViewModel viewModel) {
-    return AppBar(
-      title: Text("Order List"),
-    );
+  PreferredSizeWidget _makeAppBar(
+    BuildContext context,
+    OrderViewModel viewModel,
+  ) {
+    return AppBar(title: Text("Order List"));
   }
 
   Widget _makeContentWidget(BuildContext context, OrderViewModel viewModel) {
-    if (viewModel.orderList.isEmpty && viewModel.fetchOrderListStatus == ApiStatus.loading) {
+    if (viewModel.orderList.isEmpty &&
+        viewModel.fetchOrderListStatus == ApiStatus.loading) {
       return Center(child: CircularProgressIndicator());
     }
 
@@ -53,7 +53,7 @@ class OrderDisplay extends StatelessWidget {
       onRefresh: () async {
         viewModel.fetchOrderList();
       },
-      
+
       child: Expanded(
         child: ListView.builder(
           padding: EdgeInsets.all(8),
@@ -72,58 +72,102 @@ class OrderDisplay extends StatelessWidget {
                         children: [
                           Text("Order ID: ${order.id}"),
                           Text("Order For: ${order.customerInfo.name}"),
-                          Text("Total Price: ${order.finalPrice.symbol}${order.finalPrice.major}${order.finalPrice.decimalSymbol}${order.finalPrice.minor}"),
+                          Text(
+                            "Total Price: ${order.finalPrice.symbol}${order.finalPrice.major}${order.finalPrice.decimalSymbol}${order.finalPrice.minor}",
+                          ),
                           Text("Status: ${order.orderStatus.name}"),
                         ],
-                      )
+                      ),
                     ),
                     Expanded(
                       child: Row(
-                        children: cartProducts.map((product) {
+                        children:
+                            cartProducts.map((product) {
                               // TODO: Add product Photos
                               return (Center());
-                              },
-                          ).toList()
-                      )
+                            }).toList(),
+                      ),
                     ),
-                    Expanded(child: Column(
-                      children: [
-                        MaterialButton(
-                          child: Text("Edit Order"),
-                          onPressed: () => {
-                            // TODO: Push edit order page
-                          },
-                        ),
-                        MaterialButton(
-                          child: Text("Change Order Status"),
-                          onPressed: () => {
-                            // TODO: Change order status modal
-                          },
-                        ),
-                        MaterialButton(
-                          child: Text("Remove Order"),
-                          onPressed: () => {
-                            // TODO: Remove order modal
-                          },
-                        )
-                      ],
-                    ))
+                    Expanded(
+                      child: Column(
+                        children: [
+                          MaterialButton(
+                            child: Text("Edit Order"),
+                            onPressed:
+                                () => {
+                                  // TODO: Push edit order page as bottom sheet
+                                },
+                          ),
+                          MaterialButton(
+                            child: Text("Change Order Status"),
+                            onPressed:
+                                () => _buildChangeOrderStatusModal(
+                                  context,
+                                  index,
+                                  viewModel,
+                                ),
+                          ),
+                          MaterialButton(
+                            child: Text("Remove Order"),
+                            onPressed:
+                                () => _buildRemoveOrderModal(
+                                  context,
+                                  index,
+                                  viewModel,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              )
+              ),
             );
-          }
-        ) ,
+          },
+        ),
       ),
     );
   }
 
-  Widget _makeFloatingActionButton(BuildContext context, OrderViewModel viewModel) {
+  Widget _makeFloatingActionButton(
+    BuildContext context,
+    OrderViewModel viewModel,
+  ) {
     return FloatingActionButton(
       onPressed: () {
-        // TODO: Push add to order page
+        // TODO: Push add to order page as bottom sheet
       },
       child: Icon(Icons.add),
+    );
+  }
+
+  Future<void> _buildRemoveOrderModal(
+    BuildContext context,
+    int index,
+    OrderViewModel viewModel,
+  ) {
+    // TODO: CREATE THE MODAL
+    return showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            // TODO: Add the modal content, when click yes, remove the order
+          ),
+    );
+  }
+
+  Future<void> _buildChangeOrderStatusModal(
+    BuildContext context,
+    int index,
+    OrderViewModel viewModel,
+  ) {
+    // TODO Create the modal
+    return showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            // TODO: Add the modal content, show radio chips, when click yes, change the order status
+          ),
     );
   }
 }
