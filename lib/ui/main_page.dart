@@ -1,16 +1,8 @@
+import 'package:challenge_1_mobile_store_maker/pages/product_list_page.dart';
 import 'package:challenge_1_mobile_store_maker/ui/orders/orders_display.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class ProductsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Products')),
-      body: Center(child: Text('Products Page')),
-    );
-  }
-}
 
 // Temporary product model
 class Product {
@@ -44,7 +36,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _currentIndex = 0;
-  final _tabs = [HomePage(), OrdersPage(), ProductsPage()];
+  final _tabs = [HomePage(), OrdersPage(), ProductListPage()];
 
   void _openMenu() {
     showModalBottomSheet(
