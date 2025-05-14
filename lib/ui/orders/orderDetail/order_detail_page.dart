@@ -126,7 +126,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       ...(widget.order?.cart.productList.map((product) => Text('Product')).toList() ?? []),
       if (!isReadOnly)
         Row(children: [
-          Expanded(child: TextFormField(controller: _cartProductController)),
+          Expanded(child: TextFormField(
+            controller: _cartProductController,
+            decoration: InputDecoration(labelText: 'Search for Product')
+          )),
           IconButton(onPressed: _addCartItem, icon: Icon(Icons.add)),
         ],),
       Row(
@@ -144,13 +147,24 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     return [
       Text('Bill Items', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
       ...(widget.order?.billItemList.map((billItem) => Text('Bill Item')).toList() ?? []),
-      Row(children: [
-        Expanded(
-          flex: 2, child: TextFormField(controller: _billingDescriptionController)
+      if (!isReadOnly)
+        Row(children: [
+          Expanded(
+            flex: 2,
+            child: TextFormField(
+            controller: _billingDescriptionController,
+            decoration: InputDecoration(labelText: 'Bill Item Description')
+          )
         ),
+        SizedBox(width: 8,),
         Expanded(
-          flex: 1, child: TextFormField(controller: _billingPriceController)
-          ),
+          flex: 1,
+          child: TextFormField(
+            controller: _billingPriceController,
+            decoration: InputDecoration(labelText: 'Bill Item Price'),
+            keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+          )
+        ),
         IconButton(onPressed: _addBillItem, icon: Icon(Icons.add)),
       ],),
       Row(
