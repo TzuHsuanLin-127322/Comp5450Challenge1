@@ -79,9 +79,17 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('Final Price: ${formatMoney(widget.order?.finalPrice ?? Money(major: 0, minor: 0))}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                  Text(
+                    'Final Price: ${formatMoney(widget.order?.finalPrice ?? Money(major: 0, minor: 0))}',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 ],
               ),
+              SizedBox(height: 8,),
+              if (widget.mode != OrderPageMode.create) 
+                Text(
+                  'Order Status: ${formatOrderStatus(widget.order!.orderStatus)}',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
               SizedBox(height: 8,),
               if (!isReadOnly)
                 ElevatedButton(
@@ -123,7 +131,17 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     final cartTotal = formatMoney(widget.order?.cart.totalPrice ?? Money(major: 0, minor: 0));
     return [
       Text('Cart Items', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-      ...(widget.order?.cart.productList.map((product) => Text('Product')).toList() ?? []),
+      ...(widget.order?.cart.productList.map((product) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(product.product.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Row(children: [
+            Text(formatMoney(product.price), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            if(!isReadOnly) IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+            if(!isReadOnly) IconButton(onPressed: () {}, icon: Icon(Icons.remove)),
+          ],),
+        ],
+      )).toList() ?? []),
       if (!isReadOnly)
         Row(children: [
           Expanded(child: TextFormField(
@@ -132,6 +150,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           )),
           IconButton(onPressed: _addCartItem, icon: Icon(Icons.add)),
         ],),
+        SizedBox(width: 8,),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -146,7 +165,17 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     final billTotal = formatMoney(Money(major: minorTotal ~/ 100, minor: minorTotal % 100));
     return [
       Text('Bill Items', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-      ...(widget.order?.billItemList.map((billItem) => Text('Bill Item')).toList() ?? []),
+      ...(widget.order?.billItemList.map((billItem) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(billItem.itemDescription, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Row(children: [
+            Text(formatMoney(billItem.price), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            if(!isReadOnly) IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+            if(!isReadOnly) IconButton(onPressed: () {}, icon: Icon(Icons.remove)),
+          ],),
+        ],
+      )).toList() ?? []),
       if (!isReadOnly)
         Row(children: [
           Expanded(
@@ -165,8 +194,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
           )
         ),
+        SizedBox(width: 8,),
         IconButton(onPressed: _addBillItem, icon: Icon(Icons.add)),
       ],),
+      SizedBox(width: 8,),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

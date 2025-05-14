@@ -61,78 +61,85 @@ class OrdersPage extends StatelessWidget {
           itemBuilder: (context, index) {
             OrderModel order = viewModel.orderList[index];
             List<CartProductModel> cartProducts = order.cart.productList;
-            return Card(
-              child: Padding(
-                padding: EdgeInsets.all(8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetailPage(order: order, mode: OrderPageMode.display,)));
+              },
+              child: Card(
+                child: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Order #: ${order.id}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "For: ${order.customerInfo.name}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "Total Price: ${formatMoney(order.finalPrice)}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "Status: ${formatOrderStatus(order.orderStatus)}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children:
+                              cartProducts.map((product) {
+                                // TODO: Add product Photos
+                                return (Center());
+                              }).toList(),
+                        ),
+                      ),
+                      Column(
                         children: [
-                          Text(
-                            "Order #: ${order.id}",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            IconButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetailPage(order: order, mode: OrderPageMode.edit)));
+                            },
+                            icon: Icon(Icons.edit),
+                            padding: EdgeInsets.all(0),
                           ),
-                          Text(
-                            "For: ${order.customerInfo.name}",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          IconButton(
+                            onPressed: () => _buildChangeOrderStatusModal(context, index, viewModel),
+                            icon: Icon(Icons.change_circle),
+                            padding: EdgeInsets.all(0),
                           ),
-                          Text(
-                            "Total Price: ${formatMoney(order.finalPrice)}",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Status: ${formatOrderStatus(order.orderStatus)}",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+
+                          IconButton(
+                            onPressed: () => _buildRemoveOrderModal(context, index, viewModel),
+                            icon: Icon(Icons.delete),
+                            padding: EdgeInsets.all(0),
+                            constraints: BoxConstraints(maxHeight: 24, maxWidth: 24),
+                            color: Colors.red[800],
                           ),
                         ],
                       ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children:
-                            cartProducts.map((product) {
-                              // TODO: Add product Photos
-                              return (Center());
-                            }).toList(),
-                      ),
-                    ),
-                    Column(
-                      children: [
-                          IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.edit),
-                          padding: EdgeInsets.all(0),
-                        ),
-                        IconButton(
-                          onPressed: () => _buildChangeOrderStatusModal(context, index, viewModel),
-                          icon: Icon(Icons.change_circle),
-                          padding: EdgeInsets.all(0),
-                        ),
-
-                        IconButton(
-                          onPressed: () => _buildRemoveOrderModal(context, index, viewModel),
-                          icon: Icon(Icons.delete),
-                          padding: EdgeInsets.all(0),
-                          constraints: BoxConstraints(maxHeight: 24, maxWidth: 24),
-                          color: Colors.red[800],
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
