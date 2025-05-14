@@ -9,6 +9,7 @@ import 'widgets/dashboard_card.dart';
 import 'widgets/settings_drawer.dart';
 import 'widgets/menu_sheet.dart';
 import 'home_view_model.dart';
+import 'dart:io';
 
 class MainPage extends StatefulWidget {
   @override
@@ -123,6 +124,7 @@ class HomePage extends StatelessWidget {
       padding: EdgeInsets.all(16),
       child: Column(
         children: [
+
           /// Search Bar
           GestureDetector(
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SearchPage())),
@@ -152,12 +154,16 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(height: 12),
 
-          /// Product Summary
-          _buildProductSummary(vm, context, isWide ? 4 : 2),
-          SizedBox(height: 12),
-
           /// Messages Panel
           _buildMessagesPanel(vm, context),
+          SizedBox(height: 12),
+
+          /// Store Summary
+          _buildStoreSummary(vm, context),
+          SizedBox(height: 12),
+
+          /// Recently Sold Products
+          _buildRecentlySoldGrid(vm, context, isWide ? 4 : 2),
           SizedBox(height: 12),
         ],
       ),
@@ -179,27 +185,44 @@ Widget _buildMessagesPanel(HomeViewModel vm, BuildContext context) {
   );
 }
 
-
-Widget _buildProductSummary(HomeViewModel vm, BuildContext context, int crossAxisCount) {
-  final products = vm.recentlySoldProducts;
-
+Widget _buildStoreSummary(HomeViewModel vm, BuildContext context) {
   return Column(
     children: [
-      /// Products Sold
       Card(
         child: ListTile(
           leading: Icon(Icons.dashboard),
           title: Text('Store Summary'),
-          // two lines of text
-          subtitle: Text(products.isEmpty
-              ? 'No products sold yet'
-              : 'Products sold: ${products.length} / Total orders: ${vm.totalOrders} / Total sales: ${vm.totalSales}'
-              ),
+          subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 2),
+                Row(
+                  children: [
+                    _StatPill(label: 'Products',
+                        value: '${vm.recentlySoldProducts.length}'),
+                    SizedBox(width: 6),
+                    _StatPill(label: 'Orders',
+                        value: '${vm.totalOrders}'),
+                    SizedBox(width: 6),
+                    _StatPill(
+                        label: 'Sales',
+                        value: '\$${vm.totalSales.toStringAsFixed(2)}'),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
-      SizedBox(height: 8),
-      /// TODO: Recently Sold Grid
-      /*Card(
+    ],
+  );
+}
+
+Widget _buildRecentlySoldGrid(HomeViewModel vm, BuildContext context, int crossAxisCount) {
+  final products = vm.recentlySoldProducts;
+
+  return Column(
+    children: [
+      Card(
         child: Column(
           children: [
             Column(
@@ -207,14 +230,13 @@ Widget _buildProductSummary(HomeViewModel vm, BuildContext context, int crossAxi
                   ListTile(
                     leading: Icon(Icons.label),
                     title: Text('Recently Sold'),
-                    subtitle: Text('Last 30 days'),
+                    subtitle: Text('Last 7 days'),
                   ),
                   GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: crossAxisCount,
-                      childAspectRatio: 0.7,
                       mainAxisSpacing: 8,
                       crossAxisSpacing: 8,
                     ),
@@ -232,7 +254,7 @@ Widget _buildProductSummary(HomeViewModel vm, BuildContext context, int crossAxi
                                   color: Colors.grey[200],
                                   borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
                                   image: DecorationImage(
-                                    image: AssetImage(p.images[0]),
+                                    image: FileImage(File(p.images[0])),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -241,10 +263,10 @@ Widget _buildProductSummary(HomeViewModel vm, BuildContext context, int crossAxi
                             Padding(
                               padding: EdgeInsets.all(8),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(p.name, maxLines: 1, overflow: TextOverflow.ellipsis),
-                                  Text('\$${p.price}', style: TextStyle(fontWeight: FontWeight.bold)),
+                                  Text('\$${p.price}'),
                                 ],
                               ),
                             ),
@@ -257,7 +279,34 @@ Widget _buildProductSummary(HomeViewModel vm, BuildContext context, int crossAxi
             ),
           ],
         ),
-      ),*/
+      ),
     ],
   );
+}
+
+
+// Helper widget for Product Summary stats
+class _StatPill extends StatelessWidget {
+  final String label, value;
+  const _StatPill({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: RichText(
+        text: TextSpan(
+          style: TextStyle(color: Colors.black87, fontSize: 14),
+          children: [
+            TextSpan(text: '$label: '),
+            TextSpan(text: value),
+          ],
+        ),
+      ),
+    );
+  }
 }

@@ -94,10 +94,5 @@ class HomeViewModel extends ChangeNotifier {
       return '$hour12 $period';
     });
   }
-
-
-  /// TODO: Get product information (name, price, image)
-
-
 }
 

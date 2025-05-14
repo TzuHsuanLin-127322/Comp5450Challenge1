@@ -28,11 +28,11 @@ class AddStorePage extends StatelessWidget {
                   SizedBox(height: 16),
                   SizedBox(width: double.infinity,
                       child: OutlinedButton(onPressed: () {},
-                          child: Text('Create New Store'))),
+                          child: Text('Create New Store', style: TextStyle(fontWeight: FontWeight.bold)))),
                   SizedBox(height: 8),
                   SizedBox(width: double.infinity,
                       child: OutlinedButton(onPressed: () {},
-                          child: Text('Learn More', style: TextStyle(fontWeight: FontWeight.bold))))
+                          child: Text('Learn More')))
                 ])));
   }
 }
