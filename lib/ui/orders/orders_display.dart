@@ -51,7 +51,7 @@ class OrdersPage extends StatelessWidget {
 
     return RefreshIndicator(
       onRefresh: () async {
-        viewModel.fetchOrderList();
+        await viewModel.fetchOrderList();
       },
 
       child: Expanded(
@@ -110,22 +110,25 @@ class OrdersPage extends StatelessWidget {
                             }).toList(),
                       ),
                     ),
-                    Row(
+                    Column(
                       children: [
-                        IconButton(
-                          onPressed: () => _buildRemoveOrderModal(context, index, viewModel),
-                          icon: Icon(Icons.delete),
-                          padding: EdgeInsets.all(4),
+                          IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.edit),
+                          padding: EdgeInsets.all(0),
                         ),
                         IconButton(
                           onPressed: () => _buildChangeOrderStatusModal(context, index, viewModel),
                           icon: Icon(Icons.change_circle),
-                          padding: EdgeInsets.all(4),
+                          padding: EdgeInsets.all(0),
                         ),
+
                         IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.edit),
-                          padding: EdgeInsets.all(4),
+                          onPressed: () => _buildRemoveOrderModal(context, index, viewModel),
+                          icon: Icon(Icons.delete),
+                          padding: EdgeInsets.all(0),
+                          constraints: BoxConstraints(maxHeight: 24, maxWidth: 24),
+                          color: Colors.red[800],
                         ),
                       ],
                     ),
@@ -158,7 +161,6 @@ class OrdersPage extends StatelessWidget {
     OrdersViewModel viewModel,
   ) {
     final order = viewModel.orderList[index];
-    // TODO: CREATE THE MODAL
     return showDialog(
       context: context,
       builder:
@@ -167,8 +169,9 @@ class OrdersPage extends StatelessWidget {
             title: Text("Confirm Remove Order"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Are you sure you want to remove the following order?"),
+                Text("Are you sure you want to remove the following order?\n"),
                 Text("Order ID: ${order.id}"),
                 Text("Order For: ${order.customerInfo.name}"),
                 Text("Total Price: ${formatMoney(order.finalPrice)}"),
