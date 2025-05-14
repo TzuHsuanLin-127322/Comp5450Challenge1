@@ -1,4 +1,4 @@
-import 'package:challenge_1_mobile_store_maker/pages/product_model.dart';
+import 'package:challenge_1_mobile_store_maker/model/product_model.dart';
 
 class BillItemModel {
   final String itemDescription;

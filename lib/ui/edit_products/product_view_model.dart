@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'product_model.dart';
+import '../../model/product_model.dart';
 
 class ProductViewModel extends ChangeNotifier {
   Product product;

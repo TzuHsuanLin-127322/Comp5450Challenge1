@@ -1,6 +1,6 @@
 import 'package:challenge_1_mobile_store_maker/model/currency_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
-import 'package:challenge_1_mobile_store_maker/pages/product_model.dart';
+import 'package:challenge_1_mobile_store_maker/model/product_model.dart';
 
 String formatCurrency(CurrencyModel price) {
   return "${price.symbol}${price.major}${price.decimalSymbol}${price.minor}";

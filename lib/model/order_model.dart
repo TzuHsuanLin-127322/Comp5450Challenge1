@@ -1,7 +1,7 @@
 import 'package:challenge_1_mobile_store_maker/model/bill_item_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/cart_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/customer_info_model.dart';
-import 'package:challenge_1_mobile_store_maker/pages/product_model.dart';
+import 'package:challenge_1_mobile_store_maker/model/product_model.dart';
 
 class OrderModel {
   final int id;
