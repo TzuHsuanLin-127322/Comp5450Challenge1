@@ -1,0 +1,176 @@
+import 'package:flutter/material.dart';
+import '../models/cart.dart';
+import '../models/product.dart';
+
+class OrdersScreen extends StatelessWidget {
+  final Cart cart;
+
+  const OrdersScreen({Key? key, required this.cart}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text('Your Orders'),
+        backgroundColor: Colors.deepPurpleAccent,
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: cart.orderHistory.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.shopping_cart_outlined, color: Colors.white30, size: 80),
+                    SizedBox(height: 16),
+                    Text(
+                      'No orders yet',
+                      style: TextStyle(color: Colors.white60, fontSize: 18),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      'Start shopping to place your first order!',
+                      style: TextStyle(color: Colors.white38),
+                    ),
+                  ],
+                ),
+              )
+            : ListView.builder(
+                itemCount: cart.orderHistory.length,
+                itemBuilder: (context, index) {
+                  final order = cart.orderHistory[index];
+                  final total = order.fold(0.0, (sum, item) => sum + item.price);
+
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[900],
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.deepPurple.withOpacity(0.25),
+                          blurRadius: 12,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.receipt_long, color: Colors.deepPurpleAccent, size: 20),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Order #${index + 1}',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.deepPurpleAccent,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        ...order.map((product) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 6.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      product.name,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white70,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    '\$${product.price.toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                        const Divider(color: Colors.white12, height: 24),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            'Total: \$${total.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.greenAccent,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton.icon(
+          icon: const Icon(Icons.check_circle),
+          label: const Text('Place New Order'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.deepPurpleAccent,
+            foregroundColor: Colors.white,
+            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          onPressed: () {
+            cart.placeOrder();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Text('Your order has been placed!'),
+                backgroundColor: Colors.greenAccent.shade400,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+class Product {
+  final String id;
+  final String name;
+  final double price;
+
+  Product({required this.id, required this.name, required this.price});
+}
+ import 'product.dart';
+
+class Cart {
+  final List<Product> _items = [];
+  final List<List<Product>> _orderHistory = [];
+
+  void addProduct(Product product) => _items.add(product);
+
+  void placeOrder() {
+    if (_items.isNotEmpty) {
+      _orderHistory.add(List<Product>.from(_items));
+      _items.clear();
+    }
+  }
+
+  List<Product> get items => _items;
+  List<List<Product>> get orderHistory => _orderHistory;
+
+  double get totalPrice => _items.fold(0.0, (sum, item) => sum + item.price);
+}
