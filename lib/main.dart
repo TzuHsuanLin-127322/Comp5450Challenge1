@@ -1,8 +1,8 @@
 import 'package:challenge_1_mobile_store_maker/data/repository/order_repository.dart';
 import 'package:challenge_1_mobile_store_maker/data/services/mock_order_service.dart';
 import 'package:challenge_1_mobile_store_maker/data/services/order_service.dart';
-import 'package:challenge_1_mobile_store_maker/pages/product_list_page.dart';
-import 'package:challenge_1_mobile_store_maker/pages/product_list_view_model.dart';
+import 'package:challenge_1_mobile_store_maker/ui/products/product_list_page.dart';
+import 'package:challenge_1_mobile_store_maker/ui/products/product_list_view_model.dart';
 import 'package:challenge_1_mobile_store_maker/ui/home_view_model.dart';
 import 'package:challenge_1_mobile_store_maker/ui/orders/orders_display.dart';
 import 'package:challenge_1_mobile_store_maker/ui/orders/orders_view_model.dart';
