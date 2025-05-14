@@ -101,7 +101,7 @@ class _ProductListPageState extends State<ProductListPage> {
 
   Widget _tile(BuildContext ctx, Product p) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-    height: 110,                                             // 行高略增
+    height: 110,
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -135,8 +135,8 @@ class _ProductListPageState extends State<ProductListPage> {
             children: [
               Text(
                 p.name,
-                maxLines: 4,                         // 最多 2 行
-                overflow: TextOverflow.ellipsis,     // 超出用 …
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
