@@ -1,11 +1,10 @@
 import 'package:challenge_1_mobile_store_maker/model/bill_item_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/cart_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/cart_product_model.dart';
-import 'package:challenge_1_mobile_store_maker/model/currency_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/customer_info_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_list_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
-import 'package:challenge_1_mobile_store_maker/model/product_model.dart';
+import '../../pages/product_model.dart';
 
 final dummyOrderList = OrderListModel(
   orders: [
@@ -29,36 +28,28 @@ final dummyOrderList = OrderListModel(
               ],
             ),
             qty: 1,
-            price: CurrencyModel(
-              symbol: '\$',
+            price: Money(
               major: 12,
-              decimalSymbol: '.',
               minor: 10
             )
           )
         ],
-        totalPrice: CurrencyModel(
-          symbol: '\$',
+        totalPrice: Money(
           major: 12,
-          decimalSymbol: '.',
           minor: 10
         )
       ),
       billItemList: [
         BillItemModel(
           itemDescription: 'Processing Fee',
-          price: CurrencyModel(
-            symbol: '\$',
+          price: Money(
             major: 1,
-            decimalSymbol: '.',
             minor: 0
           )
         )
       ],
-      finalPrice: CurrencyModel(
-        symbol: '\$',
+      finalPrice: Money(
         major: 13,
-        decimalSymbol: '.',
         minor: 10
       ),
       orderStatus: OrderStatus.confirmed
