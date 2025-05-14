@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'product_model.dart';
+import '../../model/product_model.dart';
 import 'product_list_view_model.dart';
-import 'add_product_page.dart';
-import 'edit_product_page.dart';
+import '../edit_products/add_product_page.dart';
+import '../edit_products/edit_product_page.dart';
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({super.key});
@@ -30,7 +30,7 @@ class _ProductListPageState extends State<ProductListPage> {
   Widget build(BuildContext context) {
     final vm = context.watch<ProductListViewModel>();
 
-    /* ---------- 空列表 ---------- */
+
     if (vm.loading) {
       return const Scaffold(
           body: Center(child: CircularProgressIndicator()));
@@ -50,7 +50,7 @@ class _ProductListPageState extends State<ProductListPage> {
       );
     }
 
-    /* ---------- 有数据 ---------- */
+
     final filtered = _query.isEmpty
         ? vm.products
         : vm.products
@@ -98,27 +98,64 @@ class _ProductListPageState extends State<ProductListPage> {
     );
   }
 
-  /* ---------- 列表项 ---------- */
-  Widget _tile(BuildContext ctx, Product p) => ListTile(
-    leading: p.images.isEmpty
-        ? const Icon(Icons.image)
-        : Image.file(File(p.images.first),
-        width: 56, height: 56, fit: BoxFit.cover),
-    title: Text(p.name),
-    subtitle: Text('\$${p.price}'),
-    trailing: PopupMenuButton<String>(
-      onSelected: (v) {
-        if (v == 'edit') _goEdit(ctx, p);
-        if (v == 'delete') ctx.read<ProductListViewModel>().remove(p);
-      },
-      itemBuilder: (_) => const [
-        PopupMenuItem(value: 'edit', child: Text('Edit')),
-        PopupMenuItem(value: 'delete', child: Text('Delete')),
+
+  Widget _tile(BuildContext ctx, Product p) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+    height: 100,                                       // ← 整行高度
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: p.images.isEmpty
+              ? Container(
+            width: 80,
+            height: 80,
+            color: Colors.grey.shade300,
+            child: const Icon(Icons.image, size: 40),
+          )
+              : Image.file(
+            File(p.images.first),
+            width: 80,
+            height: 80,
+            fit: BoxFit.cover,
+          ),
+        ),
+        const SizedBox(width: 16),
+
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(p.name,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 4),
+              Text('\$${p.price}',
+                  style: const TextStyle(
+                      fontSize: 16, color: Colors.black54)),
+            ],
+          ),
+        ),
+
+        PopupMenuButton<String>(
+          onSelected: (v) {
+            if (v == 'edit') _goEdit(ctx, p);
+            if (v == 'delete') ctx.read<ProductListViewModel>().remove(p);
+          },
+          itemBuilder: (_) => const [
+            PopupMenuItem(value: 'edit', child: Text('Edit')),
+            PopupMenuItem(value: 'delete', child: Text('Delete')),
+          ],
+        ),
       ],
     ),
   );
 
-  /* ---------- 导航 ---------- */
+
+
   Future<void> _goAdd(BuildContext ctx) async {
     final result = await Navigator.push<Product>(
       ctx,
