@@ -4,7 +4,7 @@ import 'package:challenge_1_mobile_store_maker/data/services/order_service.dart'
 import 'package:challenge_1_mobile_store_maker/ui/products/product_list_page.dart';
 import 'package:challenge_1_mobile_store_maker/ui/products/product_list_view_model.dart';
 import 'package:challenge_1_mobile_store_maker/ui/home_view_model.dart';
-import 'package:challenge_1_mobile_store_maker/ui/orders/orders_display.dart';
+import 'package:challenge_1_mobile_store_maker/ui/orders/orders_page.dart';
 import 'package:challenge_1_mobile_store_maker/ui/orders/orders_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

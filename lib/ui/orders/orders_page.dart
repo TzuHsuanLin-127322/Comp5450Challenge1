@@ -1,6 +1,7 @@
 import 'package:challenge_1_mobile_store_maker/model/cart_product_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
 import 'package:challenge_1_mobile_store_maker/ui/orders/orderDetail/order_detail_page.dart';
+import 'package:challenge_1_mobile_store_maker/ui/orders/orderDetail/order_detail_view_model.dart';
 import 'package:challenge_1_mobile_store_maker/ui/orders/orders_view_model.dart';
 import 'package:challenge_1_mobile_store_maker/utils/api_status.dart';
 import 'package:challenge_1_mobile_store_maker/utils/string_formatter.dart';
@@ -62,9 +63,7 @@ class OrdersPage extends StatelessWidget {
             OrderModel order = viewModel.orderList[index];
             List<CartProductModel> cartProducts = order.cart.productList;
             return GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetailPage(order: order, mode: OrderPageMode.display,)));
-              },
+              onTap: () => _navigateToOrderDetailPage(context, viewModel, order, OrderPageMode.display),
               child: Card(
                 child: Padding(
                   padding: EdgeInsets.all(8),
@@ -117,9 +116,7 @@ class OrdersPage extends StatelessWidget {
                       Column(
                         children: [
                             IconButton(
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetailPage(order: order, mode: OrderPageMode.edit)));
-                            },
+                            onPressed: () => _navigateToOrderDetailPage(context, viewModel, order, OrderPageMode.edit),
                             icon: Icon(Icons.edit),
                             padding: EdgeInsets.all(0),
                           ),
@@ -154,10 +151,7 @@ class OrdersPage extends StatelessWidget {
     OrdersViewModel viewModel,
   ) {
     return FloatingActionButton(
-      onPressed: () {
-        // TODO: Push add to order page as bottom sheet
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetailPage()));
-      },
+      onPressed: () => _navigateToOrderDetailPage(context, viewModel, null, OrderPageMode.create),
       child: Icon(Icons.add),
     );
   }
@@ -259,5 +253,17 @@ class OrdersPage extends StatelessWidget {
         );
       })
     );
+  }
+
+  Future<void> _navigateToOrderDetailPage(BuildContext context, OrdersViewModel viewModel, OrderModel? order, OrderPageMode mode) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ChangeNotifierProvider(
+          create: (context) => OrderDetailViewModel(order: order, orderRepository: context.read()),
+          child: OrderDetailPage(order: order, mode: mode),
+        )
+      )
+    );
+    await viewModel.fetchOrderList();
   }
 }

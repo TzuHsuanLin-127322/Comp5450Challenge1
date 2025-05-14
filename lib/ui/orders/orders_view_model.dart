@@ -21,6 +21,7 @@ class OrdersViewModel extends ChangeNotifier{
   // TODO: Initialization function -> Get order repository list
   Future<void> fetchOrderList() async{
     _fetchOrderListStatus = ApiStatus.loading;
+    notifyListeners();
     _orderRepository.fetchOrderList().then((orderList) {
       _orderList = orderList.data?.orders ?? [];
       _fetchOrderListStatus = ApiStatus.success;
