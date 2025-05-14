@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';  // 保证正确导入 FilteringTextInputFormatter
+import 'package:flutter/services.dart';  
 import 'package:provider/provider.dart';
 import 'product_view_model.dart';
 import 'product_model.dart';
@@ -181,7 +181,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
         borderRadius: BorderRadius.circular(8),
       ),
       alignment: Alignment.center,
-      child: const Text('+ Add images', style: TextStyle(color: Colors.blue)), // Text changed to blue
+      child: const Text('+ Add images', style: TextStyle(color: Colors.blue)), 
     ),
   );
 
