@@ -152,12 +152,12 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(height: 12),
 
-          /// Messages Panel
-          _buildMessagesPanel(vm, context),
+          /// Product Summary
+          _buildProductSummary(vm, context, isWide ? 4 : 2),
           SizedBox(height: 12),
 
-          /// Recently sold products
-          _buildProductSummary(vm, context, isWide ? 4 : 2),
+          /// Messages Panel
+          _buildMessagesPanel(vm, context),
           SizedBox(height: 12),
         ],
       ),
@@ -170,8 +170,7 @@ Widget _buildMessagesPanel(HomeViewModel vm, BuildContext context) {
   return Card(
     child: ListTile(
       leading: Icon(Icons.assignment_turned_in),
-      title: Text('Orders Summary'),
-      subtitle: Text(pending == 0
+      title: Text(pending == 0
           ? 'All caught up! No pending orders'
           : 'You have $pending pending orders'),
       trailing: Icon(Icons.arrow_forward_ios),
@@ -183,16 +182,19 @@ Widget _buildMessagesPanel(HomeViewModel vm, BuildContext context) {
 
 Widget _buildProductSummary(HomeViewModel vm, BuildContext context, int crossAxisCount) {
   final products = vm.recentlySoldProducts;
+
   return Column(
     children: [
       /// Products Sold
       Card(
         child: ListTile(
           leading: Icon(Icons.dashboard),
-          title: Text('Product Summary'),
+          title: Text('Store Summary'),
+          // two lines of text
           subtitle: Text(products.isEmpty
               ? 'No products sold yet'
-              : 'Products sold: ${products.length}'),
+              : 'Products sold: ${products.length} / Total orders: ${vm.totalOrders} / Total sales: ${vm.totalSales}'
+              ),
         ),
       ),
       SizedBox(height: 8),

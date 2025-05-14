@@ -28,7 +28,8 @@ class FakeOrderService implements OrderService {
       cart: order.cart,
       billItemList: order.billItemList,
       finalPrice: order.finalPrice,
-      orderStatus: order.orderStatus
+      orderStatus: order.orderStatus,
+      orderTime: order.orderTime
     );
     _orderList.orders.add(newOrder);
     return HttpServiceResult(statusCode: 200, data: newOrder);
@@ -55,7 +56,8 @@ class FakeOrderService implements OrderService {
         cart: order.cart,
         billItemList: order.billItemList,
         finalPrice: order.finalPrice,
-        orderStatus: order.orderStatus
+        orderStatus: order.orderStatus,
+        orderTime: order.orderTime,
       );
       return HttpServiceResult(statusCode: 200, data: true);
     }

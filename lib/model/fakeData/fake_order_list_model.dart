@@ -52,7 +52,8 @@ final dummyOrderList = OrderListModel(
         major: 13,
         minor: 10
       ),
-      orderStatus: OrderStatus.confirmed
+      orderStatus: OrderStatus.confirmed,
+      orderTime: DateTime.now().subtract(const Duration(days: 1)),
     ),
   ]
 );

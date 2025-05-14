@@ -10,7 +10,8 @@ class OrderModel {
   final List<BillItemModel> billItemList;
   final Money finalPrice;
   final OrderStatus orderStatus;
-  OrderModel({this.id = -1, required this.customerInfo, required this.cart, required this.billItemList, required this.finalPrice, required this.orderStatus});
+  final DateTime orderTime;
+  OrderModel({this.id = -1, required this.customerInfo, required this.cart, required this.billItemList, required this.finalPrice, required this.orderStatus, required this.orderTime});
 }
 
 enum OrderStatus {pending, confirmed, paymentConfirmed, shipped, complete}
