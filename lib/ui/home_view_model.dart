@@ -38,8 +38,8 @@ class HomeViewModel extends ChangeNotifier {
       .fold(0.0, (sum, val) => sum + val);
 
   /// Recently sold products
-  List<ProductModel> get recentlySoldProducts {
-    final products = <ProductModel>[];
+  List<Product> get recentlySoldProducts {
+    final products = <Product>[];
     for (var order in _orders) {
       for (var item in order.cart.productList) {
         products.add(item.product);
