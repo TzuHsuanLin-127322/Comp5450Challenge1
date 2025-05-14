@@ -1,5 +1,6 @@
 import 'package:challenge_1_mobile_store_maker/model/cart_product_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
+import 'package:challenge_1_mobile_store_maker/ui/orders/orderDetail/order_detail_page.dart';
 import 'package:challenge_1_mobile_store_maker/ui/orders/orders_view_model.dart';
 import 'package:challenge_1_mobile_store_maker/utils/api_status.dart';
 import 'package:challenge_1_mobile_store_maker/utils/string_formatter.dart';
@@ -123,6 +124,7 @@ class OrdersPage extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () {
         // TODO: Push add to order page as bottom sheet
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetailPage()));
       },
       child: Icon(Icons.add),
     );

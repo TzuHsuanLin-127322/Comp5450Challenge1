@@ -7,7 +7,7 @@ String formatCurrency(CurrencyModel price) {
 }
 
 String formatMoney(Money price) {
-  return "\$${price.major}.${price.minor}";
+  return "\$${price.major}.${price.minor.toString().padLeft(2, '0')}";
 }
 
 String formatOrderStatus(OrderStatus status) {
