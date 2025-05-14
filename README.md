@@ -1,4 +1,4 @@
-# Challenge_1_mobile_store_maker
+# Challenge 1: A Flutter-Based Mobile Shop Building App
 
 ## Group 4 Members
 ```
@@ -65,37 +65,44 @@ Everything on the Home page is powered by real-time order and product data.
     - Displays product cards with image thumbnail, name, and price
 ### Product Page
 This section documents the UI screens and core logic that make up the Product feature set.
-Search Bar: Real-time search that filters the product list as the user types a name.
-Product List:
-Each item displays a thumbnail (80×80), product name, and price
-Rounded thumbnail corners (8 px), image auto-cropped to fit
-Long names wrap automatically or show ellipsis if too long
-Popup Menu:
-Edit: Opens the Edit Product page
-Delete: Removes the selected product from the list
-Floating Action Button: A “＋” button at the bottom-right corner to add a new product.
-Empty-State Prompt: If the list is empty, a centered “Add product” button encourages users to create their first item.
+
+- **Search Bar:** Real-time search that filters the product list as the user types a name.
+
+- **Product List:**
+  - Each item displays a thumbnail (80×80), product name, and price.
+  - Rounded thumbnail corners (8 px), image auto-cropped to fit.
+  - Long names wrap automatically or show ellipsis if too long.
+
+- **Popup Menu:**
+  - **Edit:** Opens the Edit Product page.
+  - **Delete:** Removes the selected product from the list.
+
+- **Floating Action Button:** A “＋” button at the bottom-right corner to add a new product.
+
+- **Empty-State Prompt:** If the list is empty, a centered “Add product” button encourages users to create their first item.
 ### Add/Edit Product Page
-Enter product title
-The title is entered via a text field in the ProductFormPage.
-Changes to the title are handled in real-time by the ProductViewModel.
-The title is validated and synced with the Product model.
-Upload/select product image
-Users can upload or select images using the ImagePicker.
-Users can add new images or remove existing ones.
-Images are stored as file paths and displayed in a grid.
-Set product price
-Users can enter both the product price and compare price
-The price fields ensure valid numeric inputs.
+- **Enter product title**
+  - The title is entered via a text field in the `ProductFormPage`.
+  - Changes to the title are handled in real-time by the `ProductViewModel`.
+  - The title is validated and synced with the `Product` model.
+
+- **Upload/select product image**
+  - Users can upload or select images using the `ImagePicker`.
+  - Users can add new images or remove existing ones.
+  - Images are stored as file paths and displayed in a grid.
+
+- **Set product price**
+  - Users can enter both the product price and compare price.
+  - The price fields ensure valid numeric inputs.
 ### Order Page
-If no orders → show “Add Order” button
-If orders exist → display a list of orders with a floating action button to add new
-Supports selecting orders for edit/remove
+- If no orders → show “Add Order” button  
+- If orders exist → display a list of orders with a floating action button to add new  
+- Supports selecting orders for edit/remove  
 ### Add/Edit Order Page
-Fill in customer information
-Select product from list
-Input final price
-Select order status
+- Fill in customer information  
+- Select product from list  
+- Input final price  
+- Select order status  
 
 
 ## How to Configure & Run
