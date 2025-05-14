@@ -116,7 +116,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   ),
                 ),
               SizedBox(
-                width: double.infinity, // 使按钮宽度填满可用空间
+                width: double.infinity,
                 child: OutlinedButton(
                   onPressed: () {
                     vm.saveProduct();
@@ -125,7 +125,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Colors.black),
                     backgroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16), // 增加垂直内边距
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                   child: const Text(
                     'Confirm',
