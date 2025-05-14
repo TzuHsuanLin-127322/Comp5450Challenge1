@@ -41,8 +41,6 @@ class MainApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (_) => MainPage(),
-        '/dashboard': (_) => DashboardPage(),
-        '/addStore': (_) => AddStorePage(),
         '/orders': (_) => OrdersPage(),
         '/products': (_) => ProductListPage(),
       },
