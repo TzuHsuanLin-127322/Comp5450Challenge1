@@ -56,7 +56,8 @@ class OrdersViewModel extends ChangeNotifier{
       cart: model.cart,
       billItemList: model.billItemList,
       finalPrice: model.finalPrice,
-      orderStatus: newStatus
+      orderStatus: newStatus,
+      orderTime: model.orderTime,
     );
     _orderRepository.updateOrder(model.id, newModel).then((result) {
       if (result.statusCode == 200) {
