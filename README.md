@@ -1,17 +1,18 @@
 # Challenge_1_mobile_store_maker
 
 ## Group 4 Members
-
--1290162    Kuttin, Samuel Elliot -> Investigate Shopify / Wireframe 
--1276906    Lee, Wei-An -> Documentation 
--1255561    Lian, Tianhua -> Home Page 
--1273233    Lin, Tzu-Hsuan -> Order List Page 
--1266613    Lin, Zhixiang -> Product List Page 
--1307010    Liu, Jun -> MVVM Architecture 
--1267834    Liu, Yingqi -> Add / Edit Product 
--1271467    Mahirwe, Yves Byukusenge -> Dependency Injection 
--1275569    Mehta, Manav Samirbhai -> Add/Edit Order 
--1275544    Naeem, Muhammad Nouman -> UIUX
+```
+-1290162   Kuttin, Samuel Elliot       -> Investigate Shopify / Wireframe  
+-1276906   Lee, Wei-An                 -> Documentation  
+-1255561   Lian, Tianhua               -> Home Page  
+-1273233   Lin, Tzu-Hsuan              -> Order List Page  
+-1266613   Lin, Zhixiang               -> Product List Page  
+-1307010   Liu, Jun                    -> MVVM Architecture  
+-1267834   Liu, Yingqi                 -> Add / Edit Product  
+-1271467   Mahirwe, Yves Byukusenge    -> Dependency Injection  
+-1275569   Mehta, Manav Samirbhai      -> Add/Edit Order  
+-1275544   Naeem, Muhammad Nouman      -> UIUX  
+```
 
 **GitHub Project Link** 
 [https://github.com/TzuHsuanLin-127322/Comp5450Challenge1](https://github.com/TzuHsuanLin-127322/Comp5450Challenge1)
