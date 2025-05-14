@@ -1,6 +1,7 @@
 # Challenge_1_mobile_store_maker
 
 ## Group 4 Members
+
 -1290162    Kuttin, Samuel Elliot -> Investigate Shopify / Wireframe 
 -1276906    Lee, Wei-An -> Documentation 
 -1255561    Lian, Tianhua -> Home Page 
@@ -95,8 +96,8 @@ flutter pub get
 ```
 
 ### Run the App 
-➤On Android/iOS Emulator: flutter run 
-➤On Chrome (Web): flutter run -d chrome
+➤On Android/iOS Emulator: `flutter run`
+➤On Chrome (Web): `flutter run -d chrome`
 
 ## Project File Structure 
 ```plaintext
