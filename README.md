@@ -33,18 +33,36 @@ Our project simulates an e-commerce application framework modelled after Shopify
 
 ## App Structure & Features
 ### Main Page
-Users can quickly find products, monitor sales, store summary, and spot pending orders. Everything on the Home page is powered by real-time order and product data. 
-Header Bar: Store button to open settings drawer, store name, alerts icon button to open alert page.
-Bottom Navigation Bar: Switch between Home Page, Product Page, Order Page and open Menus overlay sheet.
-Scrollable Body:
-Search Bar to open the Search page.
-Sales Dashboard Card displays an interactive sales chart to show sales trends over different timeframes.
-Filter chips (Today, Yesterday, This Week, This Month). 
-Summary text showing the period’s total sales and orders.
-Line chart of sales over time (hours or days).
-Messages Panel shows the number of pending orders or “All caught up!” if there is no pending order. Clicking on the panel opens the Order page.
-Store Summary Card for total sales and total number of products and orders.
-Recently Sold Product Grid shows a responsive grid (2-column for phone, 4-column for wider screen) of product cards (image thumbnail + name + price).
+Users can quickly find products, monitor sales, store summary, and spot pending orders.  
+Everything on the Home page is powered by real-time order and product data.
+
+- **Header Bar:**
+  - Store button to open settings drawer
+  - Store name
+  - Alerts icon button to open alert page
+
+- **Bottom Navigation Bar:**
+  - Switch between Home Page, Product Page, Order Page
+  - Open Menus overlay sheet
+
+- **Scrollable Body:**
+  - Search Bar to open the Search page
+  - Sales Dashboard Card:
+    - Interactive chart to show sales trends over different timeframes
+    - Filter chips (Today, Yesterday, This Week, This Month)
+    - Summary of total sales and orders
+    - Line chart of sales over time
+
+  - Messages Panel:
+    - Shows pending orders count
+    - If no pending order → "All caught up!" message
+    - Clickable to go to Order Page
+
+  - Store Summary Card: shows total sales, number of products and orders
+
+  - Recently Sold Product Grid:
+    - Responsive layout (2-column on phone, 4-column on wider screens)
+    - Displays product cards with image thumbnail, name, and price
 ### Product Page
 This section documents the UI screens and core logic that make up the Product feature set.
 Search Bar: Real-time search that filters the product list as the user types a name.
