@@ -101,10 +101,11 @@ class _ProductListPageState extends State<ProductListPage> {
 
   Widget _tile(BuildContext ctx, Product p) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-    height: 100,                                       // ← 整行高度
+    height: 110,                                             // 行高略增
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+
 
         ClipRRect(
           borderRadius: BorderRadius.circular(8),
@@ -113,6 +114,7 @@ class _ProductListPageState extends State<ProductListPage> {
             width: 80,
             height: 80,
             color: Colors.grey.shade300,
+            alignment: Alignment.center,
             child: const Icon(Icons.image, size: 40),
           )
               : Image.file(
@@ -122,23 +124,33 @@ class _ProductListPageState extends State<ProductListPage> {
             fit: BoxFit.cover,
           ),
         ),
+
         const SizedBox(width: 16),
+
 
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(p.name,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(
+                p.name,
+                maxLines: 4,                         // 最多 2 行
+                overflow: TextOverflow.ellipsis,     // 超出用 …
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 4),
-              Text('\$${p.price}',
-                  style: const TextStyle(
-                      fontSize: 16, color: Colors.black54)),
+              Text(
+                '\$${p.price}',
+                style: const TextStyle(fontSize: 16, color: Colors.black54),
+              ),
             ],
           ),
         ),
+
 
         PopupMenuButton<String>(
           onSelected: (v) {
@@ -153,6 +165,7 @@ class _ProductListPageState extends State<ProductListPage> {
       ],
     ),
   );
+
 
 
 
