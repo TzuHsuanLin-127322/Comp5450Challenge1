@@ -1,41 +1,43 @@
-import 'package:challenge_1_mobile_store_maker/pages/product_list_page.dart';
-import 'package:challenge_1_mobile_store_maker/ui/orders/orders_display.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../model/order_model.dart';
+import '../pages/product_list_page.dart';
+import '../ui/orders/orders_display.dart';
+import '../pages/product_model.dart';
 import '../ui/others/search_page.dart';
 import '../ui/others/alerts_page.dart';
 import 'widgets/dashboard_card.dart';
 import 'widgets/settings_drawer.dart';
 import 'widgets/menu_sheet.dart';
+import 'home_view_model.dart';
 
 // Temporary product model
 class Product {
   final String id;
-  final String title;
+  final String name;
   final double price;
-  final String imageUrl;
+  final List<String> images;
 
-  Product({required this.id, required this.title, required this.price, required this.imageUrl});
+  Product({required this.id, required this.name, required this.price, required this.images});
 }
 
 final List<Product> products = List.generate(
   10,
       (i) => Product(
     id: 'p\$i',
-    title: 'Product \$i',
+    name: 'Product \$i',
     price: 10.0 + i,
-    imageUrl:'assets/images/placeholder.jpg',
+    images: [''],
   ),
 );
 
 
 
-// Main Page
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
 
-// State for MainPage
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _currentIndex = 0;
@@ -104,7 +106,6 @@ class _MainPageState extends State<MainPage> {
 }
 
 
-// AppBar
 AppBar buildHomeAppBar(String storeName, VoidCallback onSettingsTap, VoidCallback onAlertsTap) {
   return AppBar(
     backgroundColor: Colors.white,
@@ -135,13 +136,13 @@ AppBar buildHomeAppBar(String storeName, VoidCallback onSettingsTap, VoidCallbac
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final int ordersCount = 5; // sample data
+    final vm = context.watch<HomeViewModel>();
+
     return SingleChildScrollView(
       padding: EdgeInsets.all(16),
       child: Column(
         children: [
-
-          // Search Bar
+          /// Search Bar
           GestureDetector(
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SearchPage())),
             child: Container(
@@ -161,7 +162,7 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(height: 12),
 
-          // Sales Dashboard
+          /// Sales Dashboard
           Card(
             child: Padding(
               padding: EdgeInsets.all(16),
@@ -170,8 +171,9 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(height: 12),
 
-          // Messages Panel
-          Card(
+          /// Messages Panel
+          _buildMessagesPanel(vm, context),
+          /*Card(
             child: ListTile(
               leading: Icon(Icons.assignment_turned_in),
               title: Text('Orders to fulfill'),
@@ -181,14 +183,13 @@ class HomePage extends StatelessWidget {
               trailing: Icon(Icons.arrow_forward_ios),
               onTap: () => Navigator.pushNamed(context, '/orders'),
             ),
-          ),
+          ),*/
           SizedBox(height: 12),
 
-          // Summary of products and orders
+          /// Recently sold products
           Card(
             child: Column(
               children: [
-                // Recently sold products GridView:
                 Column(
                     children: [
                       ListTile(
@@ -219,12 +220,12 @@ class HomePage extends StatelessWidget {
                                       color: Colors.grey[200],
                                       borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
                                       image: DecorationImage(
-                                        image: AssetImage(p.imageUrl),
+                                        image: AssetImage(p.images[0]),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
                                     child: Center(
-                                      child: Text(p.title[0], style: TextStyle(color: Colors.black, fontSize: 40)),
+                                      child: Text(p.name[0], style: TextStyle(color: Colors.black, fontSize: 40)),
                                     ),
                                   ),
                                 ),
@@ -233,7 +234,7 @@ class HomePage extends StatelessWidget {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(p.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                      Text(p.name, maxLines: 1, overflow: TextOverflow.ellipsis),
                                       Text('\$${p.price}', style: TextStyle(fontWeight: FontWeight.bold)),
                                     ],
                                   ),
@@ -253,3 +254,19 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+Widget _buildMessagesPanel(HomeViewModel vm, BuildContext context) {
+  final pending = vm.ordersByStatus(OrderStatus.pending);
+  return Card(
+    child: ListTile(
+      leading: Icon(Icons.assignment_turned_in),
+      title: Text(pending == 0
+          ? 'All caught up! No pending orders'
+          : 'You have $pending pending orders'),
+      trailing: Icon(Icons.arrow_forward_ios),
+      onTap: () => Navigator.pushNamed(context, '/orders'),
+    ),
+  );
+}
+
+
