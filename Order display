@@ -1,0 +1,41 @@
+import 'product.dart';
+
+class Cart {
+  final List<Product> _items = [];
+  final List<List<Product>> _orderHistory = [];
+
+  // Add product to cart
+  void addProduct(Product product) {
+    _items.add(product);
+  }
+
+  // Clear cart and move items to order history
+  void placeOrder() {
+    if (_items.isNotEmpty) {
+      _orderHistory.add(List<Product>.from(_items));
+      _items.clear();
+    }
+  }
+
+  // Get current cart items
+  List<Product> get items => _items;
+
+  // Get list of all past orders
+  List<List<Product>> get orderHistory => _orderHistory;
+
+  // Clear cart manually if needed
+  void clearCart() {
+    _items.clear();
+  }
+
+  // Get total cart value
+  double get totalPrice =>
+      _items.fold(0.0, (sum, item) => sum + item.price);
+}
+class Product {
+  final String id;
+  final String name;
+  final double price;
+
+  Product({required this.id, required this.name, required this.price});
+}
