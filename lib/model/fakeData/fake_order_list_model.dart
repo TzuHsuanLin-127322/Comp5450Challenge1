@@ -4,7 +4,7 @@ import 'package:challenge_1_mobile_store_maker/model/cart_product_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/customer_info_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_list_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
-import 'package:challenge_1_mobile_store_maker/pages/product_model.dart';
+import 'package:challenge_1_mobile_store_maker/model/product_model.dart';
 
 final dummyOrderList = OrderListModel(
   orders: [
