@@ -1,5 +1,6 @@
-#Challenge_1_mobile_store_maker
-##Group 4 Members
+# Challenge_1_mobile_store_maker
+
+## Group 4 Members
 -1290162    Kuttin, Samuel Elliot -> Investigate Shopify / Wireframe 
 -1276906    Lee, Wei-An -> Documentation 
 -1255561    Lian, Tianhua -> Home Page 
@@ -15,7 +16,7 @@
 [https://github.com/TzuHsuanLin-127322/Comp5450Challenge1](https://github.com/TzuHsuanLin-127322/Comp5450Challenge1)
 
 
-##Project Description
+## Project Description
 This app was developed as part of Group 4's challenge for the Comp-5450-SA 2025 course: “A framework for building mobile stores (like Shopify)”
 
 Our project simulates an e-commerce application framework modelled after Shopify. It includes product management and order management with simple navigation, suitable for further expansion into an action store with more features.
@@ -28,8 +29,8 @@ Our project simulates an e-commerce application framework modelled after Shopify
 
 
 
-##App Structure & Features
-###Main Page
+## App Structure & Features
+### Main Page
 Users can quickly find products, monitor sales, store summary, and spot pending orders. Everything on the Home page is powered by real-time order and product data. 
 Header Bar: Store button to open settings drawer, store name, alerts icon button to open alert page.
 Bottom Navigation Bar: Switch between Home Page, Product Page, Order Page and open Menus overlay sheet.
@@ -42,7 +43,7 @@ Line chart of sales over time (hours or days).
 Messages Panel shows the number of pending orders or “All caught up!” if there is no pending order. Clicking on the panel opens the Order page.
 Store Summary Card for total sales and total number of products and orders.
 Recently Sold Product Grid shows a responsive grid (2-column for phone, 4-column for wider screen) of product cards (image thumbnail + name + price).
-###Product Page
+### Product Page
 This section documents the UI screens and core logic that make up the Product feature set.
 Search Bar: Real-time search that filters the product list as the user types a name.
 Product List:
@@ -54,7 +55,7 @@ Edit: Opens the Edit Product page
 Delete: Removes the selected product from the list
 Floating Action Button: A “＋” button at the bottom-right corner to add a new product.
 Empty-State Prompt: If the list is empty, a centered “Add product” button encourages users to create their first item.
-###Add/Edit Product Page
+### Add/Edit Product Page
 Enter product title
 The title is entered via a text field in the ProductFormPage.
 Changes to the title are handled in real-time by the ProductViewModel.
@@ -66,38 +67,38 @@ Images are stored as file paths and displayed in a grid.
 Set product price
 Users can enter both the product price and compare price
 The price fields ensure valid numeric inputs.
-###Order Page
+### Order Page
 If no orders → show “Add Order” button
 If orders exist → display a list of orders with a floating action button to add new
 Supports selecting orders for edit/remove
-###Add/Edit Order Page
+### Add/Edit Order Page
 Fill in customer information
 Select product from list
 Input final price
 Select order status
 
 
-##How to Configure & Run
-###Install Flutter SDK
+## How to Configure & Run
+### Install Flutter SDK
 ➤ Flutter install guide
 ➤ Check with: flutter doctor
 
-###Clone Project from GitHub 
+### Clone Project from GitHub 
 ```bash
 git clone https://github.com/TzuHsuanLin-127322/Comp5450Challenge1.git
 cd Comp5450Challenge1
 ```
 
-###Install Dependencies 
+### Install Dependencies 
 ```bash
 flutter pub get
 ```
 
-###Run the App 
+### Run the App 
 ➤On Android/iOS Emulator: flutter run 
 ➤On Chrome (Web): flutter run -d chrome
 
-##Project File Structure 
+## Project File Structure 
 ```plaintext
 lib
 ├── data
