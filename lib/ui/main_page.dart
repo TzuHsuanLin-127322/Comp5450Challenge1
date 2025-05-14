@@ -134,6 +134,8 @@ AppBar buildHomeAppBar(String storeName, VoidCallback onSettingsTap, VoidCallbac
 
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<HomeViewModel>();

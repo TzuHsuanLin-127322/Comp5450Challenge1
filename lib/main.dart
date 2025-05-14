@@ -3,6 +3,7 @@ import 'package:challenge_1_mobile_store_maker/data/services/mock_order_service.
 import 'package:challenge_1_mobile_store_maker/data/services/order_service.dart';
 import 'package:challenge_1_mobile_store_maker/pages/product_list_page.dart';
 import 'package:challenge_1_mobile_store_maker/pages/product_list_view_model.dart';
+import 'package:challenge_1_mobile_store_maker/ui/home_view_model.dart';
 import 'package:challenge_1_mobile_store_maker/ui/orders/orders_display.dart';
 import 'package:challenge_1_mobile_store_maker/ui/orders/orders_view_model.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ void main() {
         // Repositories
         Provider(create: (context) => OrderRepository(orderService: context.read())),
         // View Holders
+        ChangeNotifierProvider(create: (context) => HomeViewModel(orderRepository: context.read())),
         ChangeNotifierProvider(create: (context) => ProductListViewModel()),
         ChangeNotifierProvider(create: (context) => OrdersViewModel(orderRepository: context.read()))
       ],
