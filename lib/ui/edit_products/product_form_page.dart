@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'product_view_model.dart';
-import 'product_model.dart';
+import '../../model/product_model.dart';
 
 class ProductFormPage extends StatefulWidget {
   final bool isEditMode;

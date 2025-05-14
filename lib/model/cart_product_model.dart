@@ -1,5 +1,5 @@
 // TODO: Complete Cart Product Model
-import '../pages/product_model.dart';
+import 'product_model.dart';
 
 class CartProductModel {
   final Product product;

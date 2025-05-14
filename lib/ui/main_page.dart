@@ -1,4 +1,4 @@
-import 'package:challenge_1_mobile_store_maker/pages/product_list_page.dart';
+import 'package:challenge_1_mobile_store_maker/ui/products/product_list_page.dart';
 import 'package:challenge_1_mobile_store_maker/ui/orders/orders_display.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
