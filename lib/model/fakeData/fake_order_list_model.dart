@@ -19,7 +19,7 @@ final dummyOrderList = OrderListModel(
         productList: [
           CartProductModel(
             product: Product(
-              id: 'B001',
+              id: '',
               name: 'Juice Blender',
               price: Money(major: 69, minor: 99),
               comparePrice: Money(major: 89, minor: 99),
