@@ -123,6 +123,7 @@ class HomePage extends StatelessWidget {
       padding: EdgeInsets.all(16),
       child: Column(
         children: [
+
           /// Search Bar
           GestureDetector(
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SearchPage())),
@@ -185,16 +186,30 @@ Widget _buildProductSummary(HomeViewModel vm, BuildContext context, int crossAxi
 
   return Column(
     children: [
-      /// Products Sold
+      /// Store Summary
       Card(
         child: ListTile(
           leading: Icon(Icons.dashboard),
-          title: Text('Store Summary'),
-          // two lines of text
-          subtitle: Text(products.isEmpty
-              ? 'No products sold yet'
-              : 'Products sold: ${products.length} / Total orders: ${vm.totalOrders} / Total sales: ${vm.totalSales}'
-              ),
+          title: Text('Store Summary', style: TextStyle(fontWeight: FontWeight.bold)),
+          subtitle: Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    _StatPill(
+                        label: 'Products', value: '${products.length}'),
+                    SizedBox(width: 8),
+                    _StatPill(label: 'Orders', value: '${vm.totalOrders}'),
+                    SizedBox(width: 8),
+                    _StatPill(
+                        label: 'Sales',
+                        value: '\$${vm.totalSales.toStringAsFixed(2)}'),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
       SizedBox(height: 8),
@@ -260,4 +275,31 @@ Widget _buildProductSummary(HomeViewModel vm, BuildContext context, int crossAxi
       ),*/
     ],
   );
+}
+
+
+// Helper widget for Product Summary stats
+class _StatPill extends StatelessWidget {
+  final String label, value;
+  const _StatPill({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: RichText(
+        text: TextSpan(
+          style: TextStyle(color: Colors.black87, fontSize: 12),
+          children: [
+            TextSpan(text: '$label: ', style: TextStyle(fontWeight: FontWeight.w600)),
+            TextSpan(text: value),
+          ],
+        ),
+      ),
+    );
+  }
 }
