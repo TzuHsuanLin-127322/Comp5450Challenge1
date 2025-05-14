@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';  // 保证正确导入 FilteringTextInputFormatter
 import 'package:provider/provider.dart';
-
 import 'product_view_model.dart';
 import 'product_model.dart';
 
@@ -28,11 +28,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
     super.initState();
     final vm = context.read<ProductViewModel>();
 
-
     if (widget.isEditMode && widget.initialData != null) {
-      // vm.setProduct(Product.fromMap(widget.initialData!));
       vm.product = Product.fromMap(widget.initialData!);
-
     }
 
     _nameCtrl = TextEditingController(text: vm.product.name);
@@ -55,15 +52,6 @@ class _ProductFormPageState extends State<ProductFormPage> {
       builder: (_, vm, __) => Scaffold(
         appBar: AppBar(
           title: Text(widget.isEditMode ? 'Edit Product' : 'Add Product'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.check),
-              onPressed: () {
-                vm.saveProduct();
-                Navigator.pop(context, vm.product);
-              },
-            )
-          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),
@@ -83,7 +71,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
               const SizedBox(height: 12),
               _moneyField(
                 controller: _compareCtrl,
-                label: 'Compare‑at (\$)',
+                label: 'Compare‑at price(\$)',
                 onChanged: (v) => _setMoney(vm.product.comparePrice, v),
               ),
               const SizedBox(height: 24),
@@ -96,7 +84,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   if (vm.product.images.isNotEmpty)
                     GestureDetector(
                       onTap: vm.pickImages,
-                      child: const Text('Add Images',
+                      child: const Text('+ Add Images',
                           style: TextStyle(color: Colors.blue)),
                     ),
                 ],
@@ -121,12 +109,54 @@ class _ProductFormPageState extends State<ProductFormPage> {
             ],
           ),
         ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 45),
+          child: OutlinedButton(
+            onPressed: () {
+              vm.saveProduct();
+              Navigator.pop(context, vm.product);
+            },
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: Colors.black),
+              backgroundColor: Colors.white,
+            ),
+            child: const Text(
+              'Confirm',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+        ),
       ),
     );
   }
 
+  // allow both numbers and decimal points
+  Widget _moneyField({
+    required TextEditingController controller,
+    required String label,
+    required ValueChanged<String> onChanged,
+  }) =>
+      TextField(
+        controller: controller,
+        keyboardType:
+        const TextInputType.numberWithOptions(decimal: true, signed: false),
+        decoration: _inputDecoration(label),
+        inputFormatters: [
+          FilteringTextInputFormatter.deny(RegExp(r'[^0-9.]'))
+        ],
+        onChanged: onChanged,
+      );
 
-
+  void _setMoney(Money money, String input) {
+    final cleanedInput = input.replaceAll(RegExp(r'[^0-9.]'), '');
+    if (cleanedInput.isNotEmpty) {
+      final parts = cleanedInput.split('.');
+      money.major = int.tryParse(parts[0]) ?? 0;
+      money.minor = parts.length > 1
+          ? int.tryParse(parts[1].padRight(2, '0').substring(0, 2)) ?? 0
+          : 0;
+    }
+  }
 
   Widget _field({
     required TextEditingController controller,
@@ -141,30 +171,6 @@ class _ProductFormPageState extends State<ProductFormPage> {
         onChanged: onChanged,
       );
 
-
-  Widget _moneyField({
-    required TextEditingController controller,
-    required String label,
-    required ValueChanged<String> onChanged,
-  }) =>
-      TextField(
-        controller: controller,
-        keyboardType:
-        const TextInputType.numberWithOptions(decimal: true, signed: false),
-        decoration: _inputDecoration(label),
-        onChanged: onChanged,
-      );
-
-
-  void _setMoney(Money money, String input) {
-    final parts = input.split('.');
-    money.major = int.tryParse(parts[0]) ?? 0;
-    money.minor = parts.length > 1
-        ? int.tryParse(parts[1].padRight(2, '0').substring(0, 2)) ?? 0
-        : 0;
-  }
-
-
   Widget _emptyImageBox({required VoidCallback onTap}) => GestureDetector(
     onTap: onTap,
     child: Container(
@@ -175,10 +181,9 @@ class _ProductFormPageState extends State<ProductFormPage> {
         borderRadius: BorderRadius.circular(8),
       ),
       alignment: Alignment.center,
-      child: const Text('Add images'),
+      child: const Text('+ Add images', style: TextStyle(color: Colors.blue)), // Text changed to blue
     ),
   );
-
 
   Widget _imageGrid(ProductViewModel vm) => GridView.builder(
     shrinkWrap: true,
@@ -218,8 +223,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
               child: Container(
                 color: Colors.black54,
                 padding: const EdgeInsets.all(2),
-                child:
-                const Icon(Icons.close, color: Colors.white, size: 16),
+                child: const Icon(Icons.close, color: Colors.white, size: 16),
               ),
             ),
           ),
