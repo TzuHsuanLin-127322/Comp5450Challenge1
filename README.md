@@ -1,15 +1,17 @@
 # Challenge_1_mobile_store_maker
 
-## Group Members
+## Group4 Members
 
-| Name                 | Responsibility              |
-|----------------------|-----------------------------|
-| Tianhua Lian         | Main Page                   |
-| Tzu-Hsuan Lin        | Order Page                  |
-| Muhammed Nabeel      | Add/Edit Order Page         |
-| Lauren               | Product                     |
-| Peggy Liu            | Add/Edit Product Page       |
-| Wei-An Lee           | Documentation               |
+1290162    Kuttin, Samuel Elliot -> Investigate Shoppify / Wireframe 
+1276906    Lee, Wei-An -> Documenation
+1255561    Lian, Tianhua -> Home Page
+1273233    Lin, Tzu-Hsuan -> Order List Page
+1266613    Lin, Zhixiang -> Product List Page
+1307010    Liu, Jun -> MVVM Architecture
+1267834    Liu, Yingqi -> Add / Edit Product
+1271467    Mahirwe, Yves Byukusenge -> Depedency Injection
+1275569    Mehta, Manav Samirbhai -> Add/Edit Order
+1275544    Naeem, Muhammad Nouman -> UIUX
 
 
 **GitHub Project Link**
