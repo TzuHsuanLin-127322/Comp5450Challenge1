@@ -1,5 +1,5 @@
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
-import 'package:challenge_1_mobile_store_maker/pages/product_model.dart';
+import 'package:challenge_1_mobile_store_maker/model/product_model.dart';
 import 'package:challenge_1_mobile_store_maker/utils/string_formatter.dart';
 import 'package:flutter/material.dart';
 
