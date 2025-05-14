@@ -232,6 +232,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       billItemList: widget.order?.billItemList ?? [],
       finalPrice: widget.order?.finalPrice ?? Money(major: 0, minor: 0),
       orderStatus: widget.order?.orderStatus ?? OrderStatus.pending,
+      orderTime: widget.order?.orderTime ?? DateTime.now(),
     );
 
     try {

@@ -76,28 +76,32 @@ class OrdersPage extends StatelessWidget {
                             Text(
                               "Order #: ${order.id}",
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
                               "For: ${order.customerInfo.name}",
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
                               "Total Price: ${formatMoney(order.finalPrice)}",
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
+                              'Date Created: ${formatDateYYMMDD(order.orderTime)}',
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
                               "Status: ${formatOrderStatus(order.orderStatus)}",
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

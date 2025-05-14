@@ -24,3 +24,10 @@ String formatOrderStatus(OrderStatus status) {
       return "Complete";
   }
 }
+
+String formatDateYYMMDD(DateTime date) {
+  final year = date.year % 100;
+  final month = date.month.toString().padLeft(2, '0');
+  final day = date.day.toString().padLeft(2, '0');
+  return '$year/$month/$day';
+}
