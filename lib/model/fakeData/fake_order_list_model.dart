@@ -19,7 +19,15 @@ final dummyOrderList = OrderListModel(
       cart: CartModel(
         productList: [
           CartProductModel(
-            product: ProductModel(),
+            product: Product(
+              id: '',
+              name: 'Juice Blender',
+              price: Money(major: 69, minor: 99),
+              comparePrice: Money(major: 89, minor: 99),
+              images: [
+                'https://i.imgur.com/FGrQZOA.png',
+              ],
+            ),
             qty: 1,
             price: CurrencyModel(
               symbol: '\$',
