@@ -11,28 +11,6 @@ import 'widgets/settings_drawer.dart';
 import 'widgets/menu_sheet.dart';
 import 'home_view_model.dart';
 
-// Temporary product model
-class Product {
-  final String id;
-  final String name;
-  final double price;
-  final List<String> images;
-
-  Product({required this.id, required this.name, required this.price, required this.images});
-}
-
-final List<Product> products = List.generate(
-  10,
-      (i) => Product(
-    id: 'p\$i',
-    name: 'Product \$i',
-    price: 10.0 + i,
-    images: [''],
-  ),
-);
-
-
-
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
@@ -138,6 +116,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var mq = MediaQuery.of(context).size;
+    bool isWide = mq.width > 600;
     final vm = context.watch<HomeViewModel>();
 
     return SingleChildScrollView(
@@ -168,89 +148,18 @@ class HomePage extends StatelessWidget {
           Card(
             child: Padding(
               padding: EdgeInsets.all(16),
-              child: DashboardCard(),
+              child: DashboardCard(vm: vm),
             ),
           ),
           SizedBox(height: 12),
 
           /// Messages Panel
           _buildMessagesPanel(vm, context),
-          /*Card(
-            child: ListTile(
-              leading: Icon(Icons.assignment_turned_in),
-              title: Text('Orders to fulfill'),
-              subtitle: Text(ordersCount == 0
-                  ? 'All caught up! No pending orders'
-                  : 'You have $ordersCount pending orders'),
-              trailing: Icon(Icons.arrow_forward_ios),
-              onTap: () => Navigator.pushNamed(context, '/orders'),
-            ),
-          ),*/
           SizedBox(height: 12),
 
           /// Recently sold products
-          Card(
-            child: Column(
-              children: [
-                Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.label),
-                        title: Text('Recently Sold'),
-                        subtitle: Text('Last 30 days'),
-                      ),
-                      GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.7,
-                          mainAxisSpacing: 8,
-                          crossAxisSpacing: 8,
-                        ),
-                        itemCount: products.length,
-                        itemBuilder: (_, i) {
-                          final p = products[i];
-                          return GestureDetector(
-                            onTap: () =>
-                                Navigator.pushNamed(context, '/products'),
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[200],
-                                      borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-                                      image: DecorationImage(
-                                        image: AssetImage(p.images[0]),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: Text(p.name[0], style: TextStyle(color: Colors.black, fontSize: 40)),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(p.name, maxLines: 1, overflow: TextOverflow.ellipsis),
-                                      Text('\$${p.price}', style: TextStyle(fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      )
-                    ]
-                ),
-              ],
-            ),
-          ),
+          _buildProductSummary(vm, context, isWide ? 4 : 2),
+          SizedBox(height: 12),
         ],
       ),
     );
@@ -262,7 +171,8 @@ Widget _buildMessagesPanel(HomeViewModel vm, BuildContext context) {
   return Card(
     child: ListTile(
       leading: Icon(Icons.assignment_turned_in),
-      title: Text(pending == 0
+      title: Text('Orders Summary'),
+      subtitle: Text(pending == 0
           ? 'All caught up! No pending orders'
           : 'You have $pending pending orders'),
       trailing: Icon(Icons.arrow_forward_ios),
@@ -272,3 +182,81 @@ Widget _buildMessagesPanel(HomeViewModel vm, BuildContext context) {
 }
 
 
+Widget _buildProductSummary(HomeViewModel vm, BuildContext context, int crossAxisCount) {
+  final products = vm.recentlySoldProducts;
+  return Column(
+    children: [
+      /// Products Sold
+      Card(
+        child: ListTile(
+          leading: Icon(Icons.dashboard),
+          title: Text('Product Summary'),
+          subtitle: Text(products.isEmpty
+              ? 'No products sold yet'
+              : 'Products sold: ${products.length}'),
+        ),
+      ),
+      SizedBox(height: 8),
+      /// TODO: Recently Sold Grid
+      /*Card(
+        child: Column(
+          children: [
+            Column(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.label),
+                    title: Text('Recently Sold'),
+                    subtitle: Text('Last 30 days'),
+                  ),
+                  GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      childAspectRatio: 0.7,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 8,
+                    ),
+                    itemCount: products.length,
+                    itemBuilder: (_, i) {
+                      final p = products[i];
+                      return GestureDetector(
+                        onTap: () =>
+                            Navigator.pushNamed(context, '/products'),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                                  image: DecorationImage(
+                                    image: AssetImage(p.images[0]),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(p.name, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                  Text('\$${p.price}', style: TextStyle(fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  )
+                ]
+            ),
+          ],
+        ),
+      ),*/
+    ],
+  );
+}

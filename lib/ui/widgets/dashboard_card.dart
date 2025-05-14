@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../ui/others/dashboard_page.dart';
+import '../home_view_model.dart';
 
 class DashboardCard extends StatefulWidget {
+  final HomeViewModel vm;
+  const DashboardCard({Key? key, required this.vm}) : super(key: key);
+
   @override
   _DashboardCardState createState() => _DashboardCardState();
 }
@@ -15,6 +19,7 @@ class _DashboardCardState extends State<DashboardCard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // Header
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -33,8 +38,8 @@ class _DashboardCardState extends State<DashboardCard> {
         // Summary Text
         Column(
           children: [
-            Text('Total Sales: \$5,000', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Text('Orders: 50', style: TextStyle(fontSize: 16)),
+            Text('Total Sales: \$${widget.vm.totalSales.toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Orders: ${widget.vm.totalOrders}', style: TextStyle(fontSize: 16)),
           ],
         ),
         SizedBox(height: 16),

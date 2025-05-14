@@ -28,13 +28,13 @@ class HomeViewModel extends ChangeNotifier {
 
   /// Total sales amount
   double get totalSales => _orders
-      .map((o) => o.finalPrice.minor)
+      .map((o) => o.finalPrice.major)
       .fold(0.0, (sum, val) => sum + val);
 
   /// Sales amount by status
   double salesByStatus(OrderStatus status) => _orders
       .where((o) => o.orderStatus == status)
-      .map((o) => o.finalPrice.minor)
+      .map((o) => o.finalPrice.major)
       .fold(0.0, (sum, val) => sum + val);
 
   /// Recently sold products
@@ -48,5 +48,3 @@ class HomeViewModel extends ChangeNotifier {
     return products;
   }
 }
-
-
