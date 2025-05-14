@@ -1,7 +1,7 @@
 # Challenge 1: A Flutter-Based Mobile Shop Building App
 
 ## Group 4 Members
-```
+
 -1290162   Kuttin, Samuel Elliot       -> Investigate Shopify / Wireframe  
 -1276906   Lee, Wei-An                 -> Documentation  
 -1255561   Lian, Tianhua               -> Home Page  
@@ -12,7 +12,6 @@
 -1271467   Mahirwe, Yves Byukusenge    -> Dependency Injection  
 -1275569   Mehta, Manav Samirbhai      -> Add/Edit Order  
 -1275544   Naeem, Muhammad Nouman      -> UIUX  
-```
 
 **GitHub Project Link** 
 [https://github.com/TzuHsuanLin-127322/Comp5450Challenge1](https://github.com/TzuHsuanLin-127322/Comp5450Challenge1)
@@ -37,32 +36,24 @@ Users can quickly find products, monitor sales, store summary, and spot pending 
 Everything on the Home page is powered by real-time order and product data.
 
 - **Header Bar:**
-  - Store button to open settings drawer
-  - Store name
-  - Alerts icon button to open alert page
+  - Store button to open settings drawer, store name, alerts icon button to open alert page
 
 - **Bottom Navigation Bar:**
-  - Switch between Home Page, Product Page, Order Page
-  - Open Menus overlay sheet
+  - Switch between Home Page, Product Page, Order Page, Open Menus overlay sheet
 
 - **Scrollable Body:**
   - Search Bar to open the Search page
-  - Sales Dashboard Card:
-    - Interactive chart to show sales trends over different timeframes
-    - Filter chips (Today, Yesterday, This Week, This Month)
-    - Summary of total sales and orders
-    - Line chart of sales over time
+  - Sales Dashboard Card displays an interactive sales chart to show sales trends over different timeframes.
+    - Filter chips (Today, Yesterday, This Week, This Month). 
+    - Summary text showing the period’s total sales and orders.
+    - Line chart of sales over time (hours or days).
+      
+  - Messages Panel shows the number of pending orders or “All caught up!” if there is no pending order. 
+    Clicking on the panel opens the Order page.
 
-  - Messages Panel:
-    - Shows pending orders count
-    - If no pending order → "All caught up!" message
-    - Clickable to go to Order Page
+  - Store Summary Card for total sales and total number of products and orders.
 
-  - Store Summary Card: shows total sales, number of products and orders
-
-  - Recently Sold Product Grid:
-    - Responsive layout (2-column on phone, 4-column on wider screens)
-    - Displays product cards with image thumbnail, name, and price
+  - Recently Sold Product Grid shows a responsive grid (2-column for phone, 4-column for wider screen) of 	    product cards (image thumbnail + name + price).
 ### Product Page
 This section documents the UI screens and core logic that make up the Product feature set.
 
