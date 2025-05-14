@@ -1,5 +1,6 @@
 import 'package:challenge_1_mobile_store_maker/model/cart_product_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
+import 'package:challenge_1_mobile_store_maker/ui/orders/orderDetail/order_detail_page.dart';
 import 'package:challenge_1_mobile_store_maker/ui/orders/orders_view_model.dart';
 import 'package:challenge_1_mobile_store_maker/utils/api_status.dart';
 import 'package:challenge_1_mobile_store_maker/utils/string_formatter.dart';
@@ -69,10 +70,34 @@ class OrdersPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Order ID: ${order.id}"),
-                          Text("Order For: ${order.customerInfo.name}"),
-                          Text("Total Price: ${formatMoney(order.finalPrice)}",),
-                          Text("Status: ${formatOrderStatus(order.orderStatus)}"),
+                          Text(
+                            "Order #: ${order.id}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "For: ${order.customerInfo.name}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Total Price: ${formatMoney(order.finalPrice)}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Status: ${formatOrderStatus(order.orderStatus)}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -85,26 +110,24 @@ class OrdersPage extends StatelessWidget {
                             }).toList(),
                       ),
                     ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          MaterialButton(
-                            child: Text("Edit Order"),
-                            onPressed:
-                                () => {
-                                  // TODO: Push edit order page as bottom sheet
-                                },
-                          ),
-                          MaterialButton(
-                            child: Text("Change Order Status"),
-                            onPressed: () => _buildChangeOrderStatusModal(context, index, viewModel),
-                          ),
-                          MaterialButton(
-                            child: Text("Remove Order"),
-                            onPressed: () => _buildRemoveOrderModal(context, index, viewModel),
-                          ),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => _buildRemoveOrderModal(context, index, viewModel),
+                          icon: Icon(Icons.delete),
+                          padding: EdgeInsets.all(4),
+                        ),
+                        IconButton(
+                          onPressed: () => _buildChangeOrderStatusModal(context, index, viewModel),
+                          icon: Icon(Icons.change_circle),
+                          padding: EdgeInsets.all(4),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.edit),
+                          padding: EdgeInsets.all(4),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -123,6 +146,7 @@ class OrdersPage extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () {
         // TODO: Push add to order page as bottom sheet
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetailPage()));
       },
       child: Icon(Icons.add),
     );
