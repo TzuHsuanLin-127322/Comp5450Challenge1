@@ -1,7 +1,11 @@
+import 'package:challenge_1_mobile_store_maker/model/cart_model.dart';
+import 'package:challenge_1_mobile_store_maker/model/customer_info_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/order_model.dart';
 import 'package:challenge_1_mobile_store_maker/model/product_model.dart';
+import 'package:challenge_1_mobile_store_maker/ui/orders/orderDetail/order_detail_view_model.dart';
 import 'package:challenge_1_mobile_store_maker/utils/string_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum OrderPageMode { create, edit, display }
 
@@ -56,6 +60,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   @override
   Widget build(BuildContext context) {
     final isReadOnly = widget.mode == OrderPageMode.display;
+    final viewModel = context.watch<OrderDetailViewModel>();
 
     return Scaffold(
       appBar: AppBar(
@@ -79,13 +84,21 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('Final Price: ${formatMoney(widget.order?.finalPrice ?? Money(major: 0, minor: 0))}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                  Text(
+                    'Final Price: ${formatMoney(widget.order?.finalPrice ?? Money(major: 0, minor: 0))}',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 ],
               ),
               SizedBox(height: 8,),
+              if (widget.mode != OrderPageMode.create) 
+                Text(
+                  'Order Status: ${formatOrderStatus(widget.order!.orderStatus)}',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              SizedBox(height: 8,),
               if (!isReadOnly)
                 ElevatedButton(
-                  onPressed: _saveOrder,
+                  onPressed: () => _saveOrder(viewModel),
                   child: Text(widget.mode == OrderPageMode.create ? 'Create' : 'Save'),
                 ),
             ],
@@ -123,7 +136,17 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     final cartTotal = formatMoney(widget.order?.cart.totalPrice ?? Money(major: 0, minor: 0));
     return [
       Text('Cart Items', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-      ...(widget.order?.cart.productList.map((product) => Text('Product')).toList() ?? []),
+      ...(widget.order?.cart.productList.map((product) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(product.product.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Row(children: [
+            Text(formatMoney(product.price), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            if(!isReadOnly) IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+            if(!isReadOnly) IconButton(onPressed: () {}, icon: Icon(Icons.remove)),
+          ],),
+        ],
+      )).toList() ?? []),
       if (!isReadOnly)
         Row(children: [
           Expanded(child: TextFormField(
@@ -132,6 +155,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           )),
           IconButton(onPressed: _addCartItem, icon: Icon(Icons.add)),
         ],),
+        SizedBox(width: 8,),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -142,11 +166,28 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   List<Widget> _buildBillItemsInput(bool isReadOnly) {
-    final minorTotal = widget.order?.billItemList.fold<int>(0, (total, billItem) => total + billItem.price.minor) ?? 0;
-    final billTotal = formatMoney(Money(major: minorTotal ~/ 100, minor: minorTotal % 100));
+    int majorTotal = 0;
+    int minorTotal = 0;
+    widget.order?.billItemList.forEach((billItem) {
+      majorTotal += billItem.price.major;
+      minorTotal += billItem.price.minor;
+    });
+    majorTotal += minorTotal ~/ 100;
+    minorTotal = minorTotal % 100;
+    final billTotal = formatMoney(Money(major: majorTotal, minor: minorTotal));
     return [
       Text('Bill Items', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-      ...(widget.order?.billItemList.map((billItem) => Text('Bill Item')).toList() ?? []),
+      ...(widget.order?.billItemList.map((billItem) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(billItem.itemDescription, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Row(children: [
+            Text(formatMoney(billItem.price), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            if(!isReadOnly) IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+            if(!isReadOnly) IconButton(onPressed: () {}, icon: Icon(Icons.remove)),
+          ],),
+        ],
+      )).toList() ?? []),
       if (!isReadOnly)
         Row(children: [
           Expanded(
@@ -165,8 +206,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
           )
         ),
+        SizedBox(width: 8,),
         IconButton(onPressed: _addBillItem, icon: Icon(Icons.add)),
       ],),
+      SizedBox(width: 8,),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -176,8 +219,37 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     ];
   }
 
-  void _saveOrder() {
+  void _saveOrder(OrderDetailViewModel viewModel) async {
     // Collect data, create/update OrderModel, and pop or call callback
+    OrderModel order = OrderModel(
+      id: widget.order?.id ?? -1,
+      customerInfo: CustomerInfoModel(
+        name: _customerNameController.text,
+        shippingAddress: _mailingAddressController.text,
+        phone: _phoneNumberController.text,
+      ),
+      cart: widget.order?.cart ?? CartModel(productList: [], totalPrice: Money(major: 0, minor: 0)),
+      billItemList: widget.order?.billItemList ?? [],
+      finalPrice: widget.order?.finalPrice ?? Money(major: 0, minor: 0),
+      orderStatus: widget.order?.orderStatus ?? OrderStatus.pending,
+    );
+
+    try {
+      if (widget.mode == OrderPageMode.create) {
+        await viewModel.createOrder(order);
+      } else {
+        await viewModel.editOrder(order);
+      }
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to save order'))
+        );
+      }
+    }
   }
 
   void _addCartItem() {
