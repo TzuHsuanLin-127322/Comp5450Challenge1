@@ -21,6 +21,7 @@ class _DashboardCardState extends State<DashboardCard> {
     List<double> data;
     List<String> labels;
     double labelInterval;
+    double leftLabelInterval = 4.0;
     double periodTotal;
 
     if (selected == 'Today') {
@@ -107,7 +108,7 @@ class _DashboardCardState extends State<DashboardCard> {
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    interval: labelInterval,
+                    interval: leftLabelInterval,
                     reservedSize: 40,
                   ),
                 ),

@@ -143,7 +143,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 8),
 
           /// Sales Dashboard
           Card(
@@ -152,19 +152,19 @@ class HomePage extends StatelessWidget {
               child: DashboardCard(vm: vm),
             ),
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 8),
 
           /// Messages Panel
           _buildMessagesPanel(vm, context),
-          SizedBox(height: 12),
+          SizedBox(height: 8),
 
           /// Store Summary
           _buildStoreSummary(vm, context),
-          SizedBox(height: 12),
+          SizedBox(height: 8),
 
           /// Recently Sold Products
           _buildRecentlySoldGrid(vm, context, isWide ? 4 : 2),
-          SizedBox(height: 12),
+          SizedBox(height: 8),
         ],
       ),
     );
@@ -198,15 +198,15 @@ Widget _buildStoreSummary(HomeViewModel vm, BuildContext context) {
                 SizedBox(height: 2),
                 Row(
                   children: [
-                    _StatPill(label: 'Products',
-                        value: '${vm.recentlySoldProducts.length}'),
+                    _StatPill(
+                        label: 'Sales',
+                        value: '\$${vm.totalSales.toStringAsFixed(2)}'),
                     SizedBox(width: 6),
                     _StatPill(label: 'Orders',
                         value: '${vm.totalOrders}'),
                     SizedBox(width: 6),
-                    _StatPill(
-                        label: 'Sales',
-                        value: '\$${vm.totalSales.toStringAsFixed(2)}'),
+                    _StatPill(label: 'Products',
+                        value: '${vm.recentlySoldProducts.length}'),
                   ],
                 ),
               ],
