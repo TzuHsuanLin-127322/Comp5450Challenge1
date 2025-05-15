@@ -136,6 +136,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     final cartTotal = formatMoney(widget.order?.cart.totalPrice ?? Money(major: 0, minor: 0));
     return [
       Text('Cart Items', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      Text('Implementation not complete due to time constraint', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.red)),
       ...(widget.order?.cart.productList.map((product) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -177,6 +178,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     final billTotal = formatMoney(Money(major: majorTotal, minor: minorTotal));
     return [
       Text('Bill Items', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+      Text('Implementation not complete due to time constraint', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.red)),
       ...(widget.order?.billItemList.map((billItem) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
