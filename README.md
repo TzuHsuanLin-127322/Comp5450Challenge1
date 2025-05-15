@@ -75,12 +75,12 @@ This section documents the UI screens and core logic that make up the Product fe
 - **Empty-State Prompt:** If the list is empty, a centered “Add product” button encourages users to create their first item.
 ### Add/Edit Product Page
 - **Enter product title**
-  - The title is entered via a text field in the `ProductFormPage`.
-  - Changes to the title are handled in real-time by the `ProductViewModel`.
-  - The title is validated and synced with the `Product` model.
+  - The title is entered via a text field in the ProductFormPage.
+  - Changes to the title are handled in real-time by the ProductViewModel.
+  - The title is validated and synced with the Product model.
 
 - **Upload/select product image**
-  - Users can upload or select images using the `ImagePicker`.
+  - Users can upload or select images using the ImagePicker.
   - Users can add new images or remove existing ones.
   - Images are stored as file paths and displayed in a grid.
 
@@ -88,14 +88,14 @@ This section documents the UI screens and core logic that make up the Product fe
   - Users can enter both the product price and compare price.
   - The price fields ensure valid numeric inputs.
 ### Order Page
-- If no orders → show “Add Order” button  
-- If orders exist → display a list of orders with a floating action button to add new  
-- Supports selecting orders for edit/remove  
+-  ⁠Display Orders
+- Click on order to either view detail, edit, or delete order. Also brings up dialog to change order status 
+- Floating action button to create order 
 ### Add/Edit Order Page
 - Fill in customer information  
-- Select product from list  
-- Input final price  
-- Select order status  
+- Select product from list (not implemented due to time constraint) 
+- Add non-product fees (not implemented due to time constraint 
+- display final price of the order
 
 
 ## How to Configure & Run
